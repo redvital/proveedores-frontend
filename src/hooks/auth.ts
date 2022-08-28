@@ -4,26 +4,31 @@ import api from "@/lib/api";
 import { useRouter } from "next/router";
 import {
 	getToken,
+	getUserStorage,
 	removeToken,
 	setToken,
+	setUserStorage,
 } from "@/services/local-storage.service";
+import { IUser } from "@/interfaces/user.interface";
 
 export const useAuth = ({ middleware } = {}) => {
 	const router = useRouter();
 	const [token, addToken] = useState(null);
-	const [user, setUser] = useState(null);
 
-	const { data, error, mutate } = useSWR("/api/user", () =>
+	const [loading, setLoading] = useState<boolean>(true);
+
+	const {
+		data: user,
+		error,
+		mutate,
+	} = useSWR<IUser>("api/auth/me", () =>
 		api
 			.get("/auth/me", {
 				headers: {
 					Authorization: `Bearer ${getToken()}`,
 				},
 			})
-			.then((res) => {
-				setUser(res.data);
-				console.log(res.data);
-			})
+			.then((res) => res.data)
 			.catch((error) => {
 				console.error("Error authMe  :", error);
 
@@ -43,7 +48,7 @@ export const useAuth = ({ middleware } = {}) => {
 				setToken(resp.data.access_token);
 				console.log("login success", resp.data);
 
-				router.push("/dashboard");
+				router.push("/admin/dashboard");
 			})
 			.catch((error) => {
 				if (error.response.status != 422) throw error;
@@ -64,30 +69,30 @@ export const useAuth = ({ middleware } = {}) => {
 		)
 			.then(() => {
 				mutate(null);
-				setToken(null);
-				setUser(null);
+				// setUser(null);
 				removeToken();
-				router.push("/login");
+				router.push("/admin/login");
 			})
-			.catch((error) => {
-				console.error("Error logout :", error);
-				router.push("/login");
-			});
+			// .catch((error) => {
+			// 	console.error("Error logout :", error);
+			// 	router.push("/admin/login");
+			// });
 	};
 
 	useEffect(() => {
 		if (user || error) {
 			console.log("useEffect user", user, error);
 
-			// setIsLoading(false);
+			setLoading(false);
 		}
 		if (middleware === "guest" && user) return;
-		if (middleware === "auth" && error) router.push("/login");
+		if (middleware === "auth" && error) router.push("/admin/login");
 	}, [user, error]);
 
 	return {
 		user,
 		login,
 		logout,
+		loading,
 	};
 };

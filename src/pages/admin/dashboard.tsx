@@ -21,7 +21,7 @@ const dashboard = () => {
 				</BreadcrumbItem>
 			</Breadcrumb>
 
-			<pre>{JSON.stringify(user) ?? "No hay usuario"}</pre>
+			<pre>{JSON.stringify(user, null, 2) ?? "Espere..."}</pre>
 		</>
 	);
 };
