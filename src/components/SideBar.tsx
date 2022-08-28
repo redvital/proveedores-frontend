@@ -34,24 +34,32 @@ import {
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
-// import Logo from "./Logo";
+import Logo from "./Logo";
 import { useRouter } from "next/router";
-
+import { IUser } from "@/interfaces/user.interface";
 
 interface LinkItemProps {
 	name: string;
 	icon: IconType;
+	path: string;
 }
 
 const LinkItems: Array<LinkItemProps> = [
-	{ name: "Home", icon: FiHome },
-	{ name: "Productos", icon: FiTrendingUp },
-	{ name: "Ventas", icon: FiCompass },
-	{ name: "Empresa", icon: FiStar },
+	{ name: "Inicio", icon: FiHome, path: "/admin/dashboard" },
+	{ name: "Productos", icon: FiCompass, path: "/admin/products" },
+	{ name: "Ventas", icon: FiTrendingUp, path: "/admin/sales" },
+	{ name: "Empresas", icon: FiStar, path: "/admin/business" },
 ];
 
-export default function Sidebar({ children, logout }: { children: ReactNode, logout: () => void }) {
-
+export default function Sidebar({
+	children,
+	logout,
+	user,
+}: {
+	children: ReactNode;
+	logout: () => void;
+	user: IUser | undefined;
+}) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	return (
 		<Box minH='100vh' bg={useColorModeValue("gray.100", "gray.900")}>
@@ -73,7 +81,7 @@ export default function Sidebar({ children, logout }: { children: ReactNode, log
 				</DrawerContent>
 			</Drawer>
 			{/* mobilenav */}
-			<MobileNav onOpen={onOpen} logout={logout} />
+			<MobileNav onOpen={onOpen} logout={logout} user={user} />
 			<Box ml={{ base: 0, md: 60 }} p='4'>
 				{children}
 			</Box>
@@ -103,15 +111,14 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 				mx='8'
 				justifyContent='space-between'
 			>
-				LOGO
-				{/* <Logo /> */}
+				<Logo />
 				<CloseButton
 					display={{ base: "flex", md: "none" }}
 					onClick={onClose}
 				/>
 			</Flex>
 			{LinkItems.map((link) => (
-				<NavItem key={link.name} icon={link.icon}>
+				<NavItem key={link.name} icon={link.icon} path={link.path}>
 					{link.name}
 				</NavItem>
 			))}
@@ -122,11 +129,12 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 interface NavItemProps extends FlexProps {
 	icon: IconType;
 	children: ReactText;
+	path: string;
 }
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
 	return (
 		<Link
-			href='#'
+			href={path}
 			style={{ textDecoration: "none" }}
 			_focus={{ boxShadow: "none" }}
 		>
@@ -161,20 +169,19 @@ const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
 
 interface MobileProps extends FlexProps {
 	onOpen: () => void;
-  logout: () => void;
+	logout: () => void;
+	user: IUser | undefined;
 }
-const MobileNav = ({ onOpen, logout, ...rest }: MobileProps) => {
-	const router = useRouter();
-
-
+const MobileNav = ({ onOpen, logout, user, ...rest }: MobileProps) => {
 	const logoutUser = async () => {
-
-      console.log('logout')
-      logout()
+		logout();
 	};
 
+	const LinkItems: Array<LinkItemProps> = [
+		{ name: "Perfil", icon: FiHome, path: "/admin/profile" },
+	];
+
 	return (
-		// isLoggedIn && user !== undefined) ? (
 		<Flex
 			ml={{ base: 0, md: 60 }}
 			px={{ base: 4, md: 4 }}
@@ -218,7 +225,10 @@ const MobileNav = ({ onOpen, logout, ...rest }: MobileProps) => {
 							_focus={{ boxShadow: "none" }}
 						>
 							<HStack>
-								<Avatar size={"sm"} src='' />
+								<Avatar
+									size={"sm"}
+									src={user ? user.profile_photo_url : ""}
+								/>
 
 								<VStack
 									display={{ base: "none", md: "flex" }}
@@ -226,11 +236,10 @@ const MobileNav = ({ onOpen, logout, ...rest }: MobileProps) => {
 									spacing='1px'
 									ml='2'
 								>
-									<Text fontSize='sm'>
-										{/* { user ? user.name : '' } */}
-									</Text>
-									<Text fontSize='xs' color='gray.600'>
-										Admin
+									<Text fontSize='xs'>
+										{user
+											? user.name.toLocaleUpperCase()
+											: ""}
 									</Text>
 								</VStack>
 								<Box display={{ base: "none", md: "flex" }}>
@@ -245,9 +254,12 @@ const MobileNav = ({ onOpen, logout, ...rest }: MobileProps) => {
 								"gray.700"
 							)}
 						>
-							<MenuItem>Profile</MenuItem>
-							<MenuItem>Settings</MenuItem>
-							<MenuItem>Billing</MenuItem>
+							{LinkItems.map((link) => (
+								<Link key={link.name} href={link.path}>
+									<MenuItem>{link.name}</MenuItem>
+								</Link>
+							))}
+
 							<MenuDivider />
 							<MenuItem onClick={logoutUser}>Salir</MenuItem>
 						</MenuList>
@@ -255,6 +267,5 @@ const MobileNav = ({ onOpen, logout, ...rest }: MobileProps) => {
 				</Flex>
 			</HStack>
 		</Flex>
-		// ): null
 	);
 };

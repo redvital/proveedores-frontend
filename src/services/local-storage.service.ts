@@ -14,11 +14,11 @@ export const removeToken = () => {
 	localStorage.removeItem("token");
 }
 
-export const setUser = (user: any) => {
+export const setUserStorage = (user: any) => {
 	localStorage.setItem("user", JSON.stringify(user));
 }
 
-export const getUser = () : IUser | null => {
+export const getUserStorage = () : IUser | null => {
 	const user = localStorage.getItem("user");
 	return user ? JSON.parse(JSON.stringify(user)) : null;
 }
