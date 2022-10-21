@@ -10,7 +10,8 @@ const api = Axios.create({
     baseURL: urls.development,
     headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Max-Age': 86400
     }
 });
 

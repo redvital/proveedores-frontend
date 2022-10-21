@@ -2,7 +2,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { AppProps } from "next/app";
 import { extendTheme } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-// import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
+import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
 
 import Default from "@/layouts/default";
 
@@ -17,7 +17,9 @@ const colors = {
 	},
 };
 
-export const theme = extendTheme({ colors });
+export const theme = extendTheme({ colors, components: {
+	Steps,
+} });
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const router = useRouter();

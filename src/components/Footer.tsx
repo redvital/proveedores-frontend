@@ -8,6 +8,10 @@ import {
 	VisuallyHidden,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import {
+	FiFacebook,
+	FiInstagram
+} from "react-icons/fi";
 
 const SocialButton = ({
 	children,
@@ -61,16 +65,13 @@ export default function SmallWithSocial() {
 				justify={{ base: "center", md: "space-between" }}
 				align={{ base: "center", md: "center" }}
 			>
-				<Text>© 2022 Redvital. All rights reserved</Text>
+				<Text>© 2022 Redvital. Todos los derechos reservados </Text>
 				<Stack direction={"row"} spacing={6}>
-					<SocialButton label={"Twitter"} href={"#"}>
-						{/* <FaTwitter /> */}
-					</SocialButton>
-					<SocialButton label={"YouTube"} href={"#"}>
-						{/* <FaYoutube /> */}
+					<SocialButton label={"Facebook"} href={"#"}>
+						<FiFacebook />
 					</SocialButton>
 					<SocialButton label={"Instagram"} href={"#"}>
-						{/* <FaInstagram /> */}
+						<FiInstagram />
 					</SocialButton>
 				</Stack>
 			</Container>
