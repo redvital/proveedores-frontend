@@ -1,15 +1,25 @@
+import { useAuth } from "@/hooks/auth";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
 	BreadcrumbLink,
+	Button,
+	Center,
+	Flex,
+	Grid,
+	GridItem,
+	Input,
+	InputGroup,
+	InputRightElement,
 	Text,
+	Square,
+	Box,
+	HStack,
 } from "@chakra-ui/react";
+import React from "react";
 
-import { useAuth } from "@/hooks/auth";
-import Hero from "@/components/Hero";
-
-const dashboard = () => {
+const index = () => {
 	const { user } = useAuth({ middleware: "auth" });
 
 	return (
@@ -20,16 +30,14 @@ const dashboard = () => {
 			>
 				<BreadcrumbItem>
 					<BreadcrumbLink href='dashboard'>
-						{" "}
-						<Text fontSize='2xl'>Inicio</Text>
+						<Text fontSize='2xl'>Ventas</Text>
 					</BreadcrumbLink>
 				</BreadcrumbItem>
 			</Breadcrumb>
 
-			<Hero />
-			{/* <pre>{JSON.stringify(user, null, 2) ?? "Espere..."}</pre> */}
+
 		</>
 	);
 };
 
-export default dashboard;
+export default index;

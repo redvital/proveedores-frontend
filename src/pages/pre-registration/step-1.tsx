@@ -1,0 +1,269 @@
+import {
+	Stack,
+	FormControl,
+	FormLabel,
+	Input,
+	FormErrorMessage,
+	Checkbox,
+	Link,
+	Heading,
+	Flex,
+	Select,
+	Box,
+	useColorModeValue,
+	Button,
+} from "@chakra-ui/react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
+const StepOne = () => {
+	const formik = useFormik({
+		initialValues: {
+			contact_name: "",
+			email: "",
+			phone: "",
+			tradename: "",
+			rif: "",
+			type_provider: 0,
+		},
+		validationSchema: Yup.object({
+			contact_name: Yup.string().required(
+				"El nombre de contacto es obligatorio"
+			),
+			email: Yup.string()
+				.email("El nombre de contacto no es valido")
+				.required("El correo es obligatorio"),
+			phone: Yup.string().required("El teléfono es obligatorio"),
+			tradename: Yup.string().required("La razón social es obligatoria"),
+			rif: Yup.string().required("El rif es obligatorio"),
+			type_provider: Yup.number()
+				.min(1, "El tipo de proveedor es obligatorio")
+				.required("El tipo de proveedor es obligatorio"),
+		}),
+		onSubmit: async (data) => {
+			alert("holaaa");
+
+			// try {
+			// 	const {
+			// 		contact_name,
+			// 		email,
+			// 		phone,
+			// 		tradename,
+			// 		rif,
+			// 		type_provider,
+			// 	} = data;
+
+			// 	const result = await api.post("/providers", {
+			// 		name: contact_name,
+			// 		email: email,
+			// 		phone_number: phone,
+			// 		company: tradename,
+			// 		rif: rif,
+			// 		provider_type: type_provider,
+			// 	});
+
+			// 	if (result.status === 201) {
+			// 		alert(result.data);
+			// 	} else {
+			// 		alert(result.data);
+			// 	}
+			// } catch (error) {
+			// 	alert(error);
+			// }
+		},
+	});
+
+	const typeProvider = [
+		{
+			id: 1,
+			name: "Proveedor tipo 1",
+		},
+		{
+			id: 2,
+			name: "Proveedor tipo 2",
+		},
+	];
+
+	return (
+		<>
+			<Flex
+				minH={"100vh"}
+				align={"center"}
+				justify={"center"}
+				bg={useColorModeValue("gray.50", "gray.800")}
+			>
+				<Stack
+					spacing={6}
+					mx={"auto"}
+					maxW={"lg"}
+					py={12}
+					px={6}
+					width={"80%"}
+				>
+					<Stack align={"center"}>
+						<Heading fontSize={"4xl"}>Pre Registro Paso 1</Heading>
+					</Stack>
+					<Box
+						rounded={"lg"}
+						bg={useColorModeValue("white", "gray.700")}
+						boxShadow={"lg"}
+						p={8}
+						width='100%'
+					>
+						<form onSubmit={formik.handleSubmit}>
+							<Stack spacing={4} marginBottom={4}>
+								<FormControl
+									id='contact_name'
+									isInvalid={
+										formik.errors.contact_name &&
+										formik.touched.contact_name
+											? true
+											: false
+									}
+								>
+									<FormLabel>Nombre del Contacto</FormLabel>
+									<Input
+										type='text'
+										value={formik.values.contact_name}
+										onChange={formik.handleChange}
+									/>
+									<FormErrorMessage>
+										{formik.touched.contact_name &&
+											formik.errors.contact_name}
+									</FormErrorMessage>
+								</FormControl>
+
+								<FormControl
+									id='email'
+									isInvalid={
+										formik.errors.email &&
+										formik.touched.email
+											? true
+											: false
+									}
+								>
+									<FormLabel>Correo</FormLabel>
+									<Input
+										type='text'
+										value={formik.values.email}
+										onChange={formik.handleChange}
+									/>
+
+									<FormErrorMessage>
+										{formik.touched.email &&
+											formik.errors.email}
+									</FormErrorMessage>
+								</FormControl>
+
+								<FormControl
+									id='phone'
+									isInvalid={
+										formik.errors.phone &&
+										formik.touched.phone
+											? true
+											: false
+									}
+								>
+									<FormLabel>Telefono de contacto</FormLabel>
+									<Input
+										type='text'
+										value={formik.values.phone}
+										onChange={formik.handleChange}
+									/>
+
+									<FormErrorMessage>
+										{formik.touched.phone &&
+											formik.errors.phone}
+									</FormErrorMessage>
+								</FormControl>
+
+								<FormControl
+									id='rif'
+									isInvalid={
+										formik.errors.rif && formik.touched.rif
+											? true
+											: false
+									}
+								>
+									<FormLabel>RIF</FormLabel>
+									<Input
+										type='text'
+										value={formik.values.rif}
+										onChange={formik.handleChange}
+									/>
+
+									<FormErrorMessage>
+										{formik.touched.rif &&
+											formik.errors.rif}
+									</FormErrorMessage>
+								</FormControl>
+
+								<FormControl
+									id='type_provider'
+									isInvalid={
+										formik.errors.type_provider &&
+										formik.touched.type_provider
+											? true
+											: false
+									}
+								>
+									<FormLabel>Tipo de proveedor</FormLabel>
+
+									<Select
+										placeholder='Seleccione un tipo de proveedor'
+										value={formik.values.type_provider}
+										onChange={formik.handleChange}
+									>
+										{typeProvider.map((provider) => (
+											<option
+												value={provider.id}
+												key={provider.id}
+											>
+												{provider.name}
+											</option>
+										))}
+									</Select>
+
+									<FormErrorMessage>
+										{formik.touched.type_provider &&
+											formik.errors.type_provider}
+									</FormErrorMessage>
+								</FormControl>
+							</Stack>
+
+							{/* <Stack spacing={10} marginBottom={3} marginTop={3}>
+								<Stack
+									direction={{
+										base: "column",
+										sm: "row",
+									}}
+									align={"start"}
+									justify={"center"}
+								>
+									<Checkbox>
+										Acepto los terminos de uso
+									</Checkbox>
+								</Stack>
+							</Stack> */}
+
+                            <Stack direction={"row"} spacing={4} marginTop={4}>
+								<Button
+									bg={"brand.400"}
+									color={"white"}
+									_hover={{
+										bg: "brand.500",
+									}}
+									type='submit'
+								>
+									Guardar
+								</Button>
+							</Stack>
+						</form>
+					</Box>
+				</Stack>
+			</Flex>
+		</>
+	);
+};
+
+export default StepOne;

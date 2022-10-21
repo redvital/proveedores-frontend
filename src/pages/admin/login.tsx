@@ -11,20 +11,24 @@ import {
 	Heading,
 	useColorModeValue,
 	FormErrorMessage,
+	Alert,
+	AlertIcon,
+	AlertTitle,
+	AlertDescription,
+	CloseButton,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
-import { useRouter } from "next/router"
-import { useState } from "react"
+import { useRouter } from "next/router";
+import { useState } from "react";
 import * as Yup from "yup";
 
 import { useAuth } from "@/hooks/auth";
 
 const login = () => {
-
 	const router = useRouter();
-	const [errors, setErrors] = useState([])
+	const [errors, setErrors] = useState([]);
 
-	const { login } = useAuth({ middleware: "guest" });
+	const { login, mutate } = useAuth({ middleware: "guest" });
 
 	const formik = useFormik({
 		initialValues: {
@@ -41,10 +45,11 @@ const login = () => {
 		}),
 		onSubmit: async ({ email, password }) => {
 			try {
-				if(!formik.isValid) return
-				await login(setErrors, { email, password});
+				if (!formik.isValid) return;
+				await login(setErrors, { email, password });
+				await mutate()
 			} catch (error) {
-				console.error(error);
+				console.error('error ;', error);
 			}
 		},
 	});
@@ -73,8 +78,7 @@ const login = () => {
 							<FormControl
 								id='email'
 								isInvalid={
-									formik.errors.email &&
-									formik.touched.email
+									formik.errors.email && formik.touched.email
 										? true
 										: false
 								}
@@ -118,15 +122,35 @@ const login = () => {
 									justify={"space-between"}
 								>
 									<Checkbox>Recordar sus datos?</Checkbox>
-									<Link color={"blue.400"}>
+									<Link color={"brand.400"}>
 										Olvido su contraseña?
 									</Link>
 								</Stack>
+
+								{errors?? (
+									<Alert status='error'>
+									<AlertIcon />
+									<Box>
+									  <AlertTitle>Error!</AlertTitle>
+									  <AlertDescription>
+										Por favor verifique sus datos
+									  </AlertDescription>
+									</Box>
+									{/* <CloseButton
+									  alignSelf='flex-start'
+									  position='relative'
+									  right={-1}
+									  top={-1}
+									  onClick={onClose}
+									/> */}
+								  </Alert>
+								)}
+
 								<Button
-									bg={"blue.400"}
+									bg={"brand.400"}
 									color={"white"}
 									_hover={{
-										bg: "blue.500",
+										bg: "brand.500",
 									}}
 									type='submit'
 								>
@@ -141,8 +165,4 @@ const login = () => {
 	);
 };
 
-
 export default login;
-
-
-

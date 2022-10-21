@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext } from "react";
+import React, { ReactNode, ReactText} from "react";
 import {
 	IconButton,
 	Avatar,
@@ -25,18 +25,17 @@ import {
 import {
 	FiHome,
 	FiTrendingUp,
-	FiCompass,
 	FiStar,
-	FiSettings,
 	FiMenu,
-	FiBell,
+	FiBox,
+	FiTag,
+	FiUsers,
 	FiChevronDown,
 } from "react-icons/fi";
 import { IconType } from "react-icons";
-import { ReactText } from "react";
-import Logo from "./Logo";
-import { useRouter } from "next/router";
+import Logo from "@/components/Logo";
 import { IUser } from "@/interfaces/user.interface";
+import { Notifications } from "@/components/Notifications";
 
 interface LinkItemProps {
 	name: string;
@@ -46,9 +45,11 @@ interface LinkItemProps {
 
 const LinkItems: Array<LinkItemProps> = [
 	{ name: "Inicio", icon: FiHome, path: "/admin/dashboard" },
-	{ name: "Productos", icon: FiCompass, path: "/admin/products" },
+	{ name: "Productos", icon: FiBox, path: "/admin/products" },
 	{ name: "Ventas", icon: FiTrendingUp, path: "/admin/sales" },
 	{ name: "Empresas", icon: FiStar, path: "/admin/business" },
+	{ name: "Inventarios", icon: FiTag, path: "/admin/inventories" },
+	{ name: "Usuarios", icon: FiUsers, path: "/admin/users" },
 ];
 
 export default function Sidebar({
@@ -146,7 +147,7 @@ const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
 				role='group'
 				cursor='pointer'
 				_hover={{
-					bg: "cyan.400",
+					bg: "brand.700",
 					color: "white",
 				}}
 				{...rest}
@@ -211,12 +212,7 @@ const MobileNav = ({ onOpen, logout, user, ...rest }: MobileProps) => {
 			</Text>
 
 			<HStack spacing={{ base: "0", md: "6" }}>
-				<IconButton
-					size='lg'
-					variant='ghost'
-					aria-label='open menu'
-					icon={<FiBell />}
-				/>
+				<Notifications />
 				<Flex alignItems={"center"}>
 					<Menu>
 						<MenuButton
