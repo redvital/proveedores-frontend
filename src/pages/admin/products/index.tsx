@@ -33,32 +33,30 @@ import {
 	Tfoot,
 	Badge,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "@chakra-ui/react";
+import { IProducts } from "@/interfaces/product.interface";
+import api from "@/lib/api";
+import { getToken } from "@/services/local-storage.service";
 
 const index = () => {
 	const { user } = useAuth({ middleware: "auth" });
+	const token = getToken();
 
-	const products = [
-		{
-			id: 1,
-			name: "Producto 1",
-			sku: "SKU-1",
-			unit_price: 100,
-			price: 100,
-			last_modified: "2021-01-01",
-			status: "Aprobado",
-		},
-		{
-			id: 2,
-			name: "Producto 2",
-			sku: "SKU-2",
-			unit_price: 200,
-			price: 200,
-			last_modified: "2021-01-01",
-			status: "Denegado",
-		},
-	];
+	const [products, setProducts] = useState<IProducts[]>([]);
+	const getData = async () => {
+		const { data } = await api.get("supplier/1/products", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		setProducts(data.data);
+	};
+
+	useEffect(() => {
+		getData();
+	}, []);
 
 	return (
 		<>
@@ -146,20 +144,31 @@ const index = () => {
 									({
 										id,
 										name,
-										sku,
-										unit_price,
-										price,
-										last_modified,
+										sku_provider,
+										cost_per_unit,
+										cost_per_package,
+										updated_at,
 										status,
 									}) => (
 										<Tr>
 											<Td>{id}</Td>
 											<Td>{name}</Td>
-											<Td>{sku}</Td>
-											<Td isNumeric>{unit_price}</Td>
-											<Td isNumeric>{price}</Td>
-											<Td>{last_modified}</Td>
-											<Td><Badge colorScheme={status == 'Aprobado' ? 'green': 'red'}>{status}</Badge>
+											<Td>{sku_provider}</Td>
+											<Td isNumeric>{cost_per_unit}</Td>
+											<Td isNumeric>
+												{cost_per_package}
+											</Td>
+											<Td>{ String(updated_at)}</Td>
+											<Td>
+												<Badge
+													colorScheme={
+														status == "Aprobado"
+															? "green"
+															: "red"
+													}
+												>
+													{status}
+												</Badge>
 											</Td>
 
 											<Td>

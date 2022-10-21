@@ -21,7 +21,7 @@ import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import * as Yup from "yup";
-
+import Logo from "@/components/Logo";
 import { useAuth } from "@/hooks/auth";
 
 const login = () => {
@@ -47,9 +47,9 @@ const login = () => {
 			try {
 				if (!formik.isValid) return;
 				await login(setErrors, { email, password });
-				await mutate()
+				await mutate();
 			} catch (error) {
-				console.error('error ;', error);
+				console.error("error ;", error);
 			}
 		},
 	});
@@ -62,6 +62,10 @@ const login = () => {
 			bg={useColorModeValue("gray.50", "gray.800")}
 		>
 			<Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+				<Stack align={"center"}>
+					<Logo />
+				</Stack>
+
 				<Stack align={"center"}>
 					<Heading fontSize={"4xl"}>
 						Iniciar sesión en su cuenta
@@ -127,23 +131,23 @@ const login = () => {
 									</Link>
 								</Stack>
 
-								{errors?? (
+								{errors ?? (
 									<Alert status='error'>
-									<AlertIcon />
-									<Box>
-									  <AlertTitle>Error!</AlertTitle>
-									  <AlertDescription>
-										Por favor verifique sus datos
-									  </AlertDescription>
-									</Box>
-									{/* <CloseButton
+										<AlertIcon />
+										<Box>
+											<AlertTitle>Error!</AlertTitle>
+											<AlertDescription>
+												Por favor verifique sus datos
+											</AlertDescription>
+										</Box>
+										{/* <CloseButton
 									  alignSelf='flex-start'
 									  position='relative'
 									  right={-1}
 									  top={-1}
 									  onClick={onClose}
 									/> */}
-								  </Alert>
+									</Alert>
 								)}
 
 								<Button
