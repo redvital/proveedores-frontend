@@ -55,7 +55,6 @@ const LinkItems: Array<LinkItemProps> = [
 	{ name: "Tiendas", icon: FiShoppingBag, path: "/admin/stores" },
 	{ name: "Categorías", icon: FiBookmark, path: "/admin/categories" },
 	{ name: "Ventas", icon: FiTrendingUp, path: "/admin/sales" },
-	// { name: "Empresas", icon: FiStar, path: "/admin/business" },
 	{ name: "Inventarios", icon: FiTag, path: "/admin/inventories" },
 	{ name: "Usuarios", icon: FiUsers, path: "/admin/users" },
 ];
