@@ -34,6 +34,7 @@ import {
 	FiBookmark,
 	FiTruck,
 	FiShoppingBag,
+	FiUserPlus,
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import Logo from "@/components/Logo";
@@ -50,10 +51,11 @@ const LinkItems: Array<LinkItemProps> = [
 	{ name: "Inicio", icon: FiHome, path: "/admin/dashboard" },
 	{ name: "Proveedores", icon: FiTruck, path: "/admin/providers" },
 	{ name: "Productos", icon: FiBox, path: "/admin/products" },
+	{ name: "Representantes", icon: FiUserPlus, path: "/admin/representatives" },
 	{ name: "Tiendas", icon: FiShoppingBag, path: "/admin/stores" },
 	{ name: "Categorías", icon: FiBookmark, path: "/admin/categories" },
 	{ name: "Ventas", icon: FiTrendingUp, path: "/admin/sales" },
-	{ name: "Empresas", icon: FiStar, path: "/admin/business" },
+	// { name: "Empresas", icon: FiStar, path: "/admin/business" },
 	{ name: "Inventarios", icon: FiTag, path: "/admin/inventories" },
 	{ name: "Usuarios", icon: FiUsers, path: "/admin/users" },
 ];
