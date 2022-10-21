@@ -22,15 +22,20 @@ import {
 	FormLabel,
 	FormErrorMessage,
 	Select,
+	useToast,
 } from "@chakra-ui/react";
-import React, from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { Link } from '@chakra-ui/react';
-
+import { Link } from "@chakra-ui/react";
+import api from "@/lib/api";
+import { getToken } from "@/services/local-storage.service";
+import { useEffect, useState } from "react";
 
 const create = () => {
 	const { user } = useAuth({ middleware: "auth" });
+	const token = getToken();
+
+	const toast = useToast();
 
 	const categories = [
 		{
@@ -85,7 +90,7 @@ const create = () => {
 			quantity_available: "",
 			bulk_cost: "",
 			unit_price: "",
-			files: [],
+			// files: [],
 		},
 		validationSchema: Yup.object({
 			name: Yup.string().required("El nombre es obligatorio"),
@@ -111,7 +116,7 @@ const create = () => {
 			unit_price: Yup.number().required(
 				"El precio unitario es obligatorio"
 			),
-			files: Yup.array().min(1,"Carga al menos una imagen"),
+			// files: Yup.array().min(1,"Carga al menos una imagen"),
 		}),
 		onSubmit: async ({
 			name,
@@ -129,9 +134,47 @@ const create = () => {
 			try {
 				if (!formik.isValid) return;
 
-				console.log("FORM", formik.values);
+				const response = await api.post(
+					"supplier/1/products",
+					{
+						name: name,
+						category: category_id,
+						sku_provider: sku,
+						bar_code: barcode,
+						method_of_payment: special_payment_method,
+						condition: condition,
+						currency: currency,
+						cost_per_unit: unit_price,
+						cost_per_package: bulk_cost,
+						sugessted_price: 5000,
+						provider_id: 1,
+						commercialized: 1,
+						approved: 1,
+					},
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				);
+
+				if (response.status === 201) {
+					toast({
+						title: `Se guardo el producto correctamente`,
+						status: "success",
+
+					});
+
+					formik.resetForm();
+				}
 			} catch (error) {
-				console.error("error ;", error);
+
+				console.error("error: ", error);
+				const err = error as any
+				toast({
+					title: `${err.message}`,
+					status: "error",
+				});
 			}
 		},
 	});
@@ -392,7 +435,7 @@ const create = () => {
 							</FormErrorMessage>
 						</FormControl>
 
-						<FormControl
+						{/* <FormControl
 							id='files'
 							isInvalid={
 								formik.errors.files &&
@@ -416,7 +459,7 @@ const create = () => {
 								{formik.touched.files &&
 									formik.errors.files}
 							</FormErrorMessage>
-						</FormControl>
+						</FormControl> */}
 
 						<FormControl
 							id='unit_price'
@@ -441,19 +484,17 @@ const create = () => {
 
 						<Stack direction={"row"} spacing={4} marginTop={4}>
 							<Link href={"/admin/products"}>
-                            <Button
-								bg={"red.300"}
-								color={"white"}
-								_hover={{
-									bg: "red.500",
-								}}
-								type='button'
-
-
-							>
-								Cancelar
-							</Button>
-                            </Link>
+								<Button
+									bg={"red.300"}
+									color={"white"}
+									_hover={{
+										bg: "red.500",
+									}}
+									type='button'
+								>
+									Cancelar
+								</Button>
+							</Link>
 
 							<Button
 								bg={"brand.400"}
@@ -462,7 +503,6 @@ const create = () => {
 									bg: "brand.500",
 								}}
 								type='submit'
-
 							>
 								Guardar
 							</Button>
