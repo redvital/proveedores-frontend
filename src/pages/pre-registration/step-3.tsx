@@ -27,6 +27,7 @@ import {
 	getPaymentMethodOptions,
 } from "@/services/options.service";
 import { IOptions } from "@/interfaces/options.interface";
+import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
 
 const StepThree = () => {
 	const router = useRouter();
@@ -115,7 +116,7 @@ const StepThree = () => {
 					}
 				);
 
-				if (response.status === 201) {
+				if (response.status === HttpStatusCode.Created) {
 					toast({
 						title: "El registro fue completado con éxito",
 						status: "success",

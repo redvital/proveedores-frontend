@@ -26,6 +26,7 @@ import {
 	getStatesOfVenezuela,
 } from "@/services/options.service";
 import { IOptions } from "@/interfaces/options.interface"
+import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
 
 const StepTwo = () => {
 	const router = useRouter();
@@ -100,7 +101,7 @@ const StepTwo = () => {
 					}
 				);
 
-				if (response.status === 201) {
+				if (response.status === HttpStatusCode.Created) {
 					toast({
 						title: "Paso dos completado, espere mientras se redirecciona al ultimo paso",
 						status: "success",

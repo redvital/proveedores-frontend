@@ -32,6 +32,7 @@ import api from "@/lib/api";
 import { getToken } from "@/services/local-storage.service";
 import { useEffect, useState } from "react";
 import { IProviders } from "@/interfaces/provider.interface";
+import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
 
 const view = () => {
 	const { user } = useAuth({ middleware: "auth" });
@@ -122,7 +123,7 @@ const view = () => {
 					}
 				);
 
-				if (response.status === 201) {
+				if (response.status === HttpStatusCode.Ok) {
 					toast({
 						title: `Se actualizo el proveedor correctamente`,
 						status: "success",
