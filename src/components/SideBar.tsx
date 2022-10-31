@@ -54,9 +54,9 @@ const LinkItems: Array<LinkItemProps> = [
 	{ name: "Representantes", icon: FiUserPlus, path: "/admin/representatives" },
 	{ name: "Tiendas", icon: FiShoppingBag, path: "/admin/stores" },
 	{ name: "Categorías", icon: FiBookmark, path: "/admin/categories" },
-	{ name: "Ventas", icon: FiTrendingUp, path: "/admin/sales" },
+	// { name: "Ventas", icon: FiTrendingUp, path: "/admin/sales" },
 	{ name: "Inventarios", icon: FiTag, path: "/admin/inventories" },
-	{ name: "Usuarios", icon: FiUsers, path: "/admin/users" },
+	// { name: "Usuarios", icon: FiUsers, path: "/admin/users" },
 ];
 
 export default function Sidebar({
