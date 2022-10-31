@@ -51,7 +51,11 @@ const LinkItems: Array<LinkItemProps> = [
 	{ name: "Inicio", icon: FiHome, path: "/admin/dashboard" },
 	{ name: "Proveedores", icon: FiTruck, path: "/admin/providers" },
 	{ name: "Productos", icon: FiBox, path: "/admin/products" },
-	{ name: "Representantes", icon: FiUserPlus, path: "/admin/representatives" },
+	{
+		name: "Representantes",
+		icon: FiUserPlus,
+		path: "/admin/representatives",
+	},
 	{ name: "Tiendas", icon: FiShoppingBag, path: "/admin/stores" },
 	{ name: "Categorías", icon: FiBookmark, path: "/admin/categories" },
 	// { name: "Ventas", icon: FiTrendingUp, path: "/admin/sales" },
@@ -215,7 +219,7 @@ const MobileNav = ({ onOpen, logout, user, ...rest }: MobileProps) => {
 				fontFamily='monospace'
 				fontWeight='bold'
 			>
-				Logo
+				Redvital
 			</Text>
 
 			<HStack spacing={{ base: "0", md: "6" }}>

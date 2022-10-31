@@ -18,6 +18,15 @@ import { useColorModeValue } from "@chakra-ui/react";
 import api from "@/lib/api";
 import { useRouter } from "next/router";
 import { getToken } from "@/services/local-storage.service";
+import Logo from "@/components/Logo";
+import { useEffect, useState } from "react";
+import {
+	getAccountTypesOptions,
+	getBankOptions,
+	getCurrencyOptions,
+	getPaymentMethodOptions,
+} from "@/services/options.service";
+import { IOptions } from "@/interfaces/options.interface";
 
 const StepThree = () => {
 	const router = useRouter();
@@ -27,6 +36,23 @@ const StepThree = () => {
 	const providerId = router.query.provider;
 
 	const token = getToken();
+
+	const [paymentMethods, setPaymentMethods] = useState([]);
+	const [banks, setBanks] = useState([]);
+
+	const [currencies, setCurrencies] = useState([]);
+	const [accountTypes, setAccountTypes] = useState([]);
+
+	const loadSelects = async () => {
+		await getAccountTypesOptions(setAccountTypes);
+		await getBankOptions(setBanks);
+		await getCurrencyOptions(setCurrencies);
+		await getPaymentMethodOptions(setPaymentMethods);
+	};
+
+	useEffect(() => {
+		loadSelects();
+	}, []);
 
 	const formik = useFormik({
 		initialValues: {
@@ -112,44 +138,6 @@ const StepThree = () => {
 		},
 	});
 
-	const paymentMethods = [
-		{
-			id: 1,
-			name: "Efectivo",
-		},
-		{
-			id: 2,
-			name: "Transferencia",
-		},
-	];
-	const banks = [
-		{
-			id: 1,
-			name: "Banco de Venezuela",
-		},
-		{
-			id: 2,
-			name: "Banco Mercantil",
-		},
-	];
-	const currencies = [
-		{
-			id: 1,
-			name: "Bolívares",
-		},
-		{
-			id: 2,
-			name: "Dólares",
-		},
-	];
-
-	const accountTypes = [
-		{
-			id: 1,
-			name: "Corriente",
-		},
-	];
-
 	return (
 		<>
 			<Flex
@@ -167,7 +155,8 @@ const StepThree = () => {
 					width={"80%"}
 				>
 					<Stack align={"center"}>
-						<Heading fontSize={"4xl"}>Pre Registro Paso 3</Heading>
+						<Logo />
+						<Heading fontSize={"xl"}>Paso 3/3</Heading>
 					</Stack>
 					<Box
 						rounded={"lg"}
@@ -193,14 +182,16 @@ const StepThree = () => {
 										value={formik.values.payment_method}
 										onChange={formik.handleChange}
 									>
-										{paymentMethods.map((paymentMethod) => (
-											<option
-												value={paymentMethod.id}
-												key={paymentMethod.id}
-											>
-												{paymentMethod.name}
-											</option>
-										))}
+										{paymentMethods.map(
+											(paymentMethod: IOptions) => (
+												<option
+													value={paymentMethod.id}
+													key={paymentMethod.id}
+												>
+													{paymentMethod.name}
+												</option>
+											)
+										)}
 									</Select>
 									<FormErrorMessage>
 										{formik.touched.payment_method &&
@@ -223,7 +214,7 @@ const StepThree = () => {
 										value={formik.values.bank}
 										onChange={formik.handleChange}
 									>
-										{banks.map((bank) => (
+										{banks.map((bank: IOptions) => (
 											<option
 												value={bank.id}
 												key={bank.id}
@@ -254,14 +245,16 @@ const StepThree = () => {
 										value={formik.values.currency}
 										onChange={formik.handleChange}
 									>
-										{currencies.map((currency) => (
-											<option
-												value={currency.id}
-												key={currency.id}
-											>
-												{currency.name}
-											</option>
-										))}
+										{currencies.map(
+											(currency: IOptions) => (
+												<option
+													value={currency.id}
+													key={currency.id}
+												>
+													{currency.name}
+												</option>
+											)
+										)}
 									</Select>
 
 									<FormErrorMessage>
@@ -285,14 +278,16 @@ const StepThree = () => {
 										value={formik.values.account_type}
 										onChange={formik.handleChange}
 									>
-										{accountTypes.map((accountType) => (
-											<option
-												value={accountType.id}
-												key={accountType.id}
-											>
-												{accountType.name}
-											</option>
-										))}
+										{accountTypes.map(
+											(accountType: IOptions) => (
+												<option
+													value={accountType.id}
+													key={accountType.id}
+												>
+													{accountType.name}
+												</option>
+											)
+										)}
 									</Select>
 
 									<FormErrorMessage>

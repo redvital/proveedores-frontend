@@ -16,7 +16,8 @@ export default function NotFound() {
 				Página no encontrada
 			</Text>
 			<Text color={"brand.500"} mb={6}>
-				La página que busca no parece existir
+				La página que busca parece no existir, si cree que esto es un
+				error por favor contacte al administrador.
 			</Text>
 
 			<Link href='/admin/dashboard'>

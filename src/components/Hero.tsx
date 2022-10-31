@@ -49,6 +49,7 @@ const Hero = () => {
 					<Text
 						fontSize={{ base: "lg", lg: "lg" }}
 						color={"gray.500"}
+						textAlign={"justify"}
 					>
 						Agradecemos cargar sus productos claramente,
 						encarecidamente solicitamos la carga de una imagen por
@@ -63,20 +64,18 @@ const Hero = () => {
 						direction={{ base: "column", md: "row" }}
 						spacing={4}
 					>
-						<Link href="/admin/products/create">
-						<Button
-							rounded={"full"}
-							bg={"blue.400"}
-							color={"white"}
-							_hover={{
-								bg: "blue.500",
-							}}
-
-						>
-							Crear Producto
-						</Button>
+						<Link href='/admin/products/create'>
+							<Button
+								rounded={"full"}
+								bg={"blue.400"}
+								color={"white"}
+								_hover={{
+									bg: "blue.500",
+								}}
+							>
+								Crear Producto
+							</Button>
 						</Link>
-						{/* <Button rounded={"full"}>How It Works</Button> */}
 					</Stack>
 				</Stack>
 			</Flex>
