@@ -35,11 +35,12 @@ import {
 import React from "react";
 import { Link } from "@chakra-ui/react";
 import { CardSedes } from "@/components/CardSedes";
+import { ISedes } from "@/interfaces/sedes.interface"
 
 const index = () => {
 	const { user } = useAuth({ middleware: "auth" });
 
-	const sedes = [
+	const sedes : ISedes[] = [
 		{
 			id: 1,
 			name: "Valencia",

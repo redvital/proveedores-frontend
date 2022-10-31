@@ -18,10 +18,24 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
+import Logo from "@/components/Logo";
+import { useState, useEffect } from "react";
+import { getTypeProviders } from "@/services/options.service";
+import { IOptions } from "@/interfaces/options.interface";
 
 const StepOne = () => {
 	const toast = useToast();
 	const router = useRouter();
+
+	const [typeProviders, setTypeProviders] = useState([]);
+
+	const loadSelects = async () => {
+		await getTypeProviders(setTypeProviders);
+	};
+
+	useEffect(() => {
+		loadSelects();
+	}, []);
 
 	const formik = useFormik({
 		initialValues: {
@@ -98,17 +112,6 @@ const StepOne = () => {
 		},
 	});
 
-	const typeProvider = [
-		{
-			id: 1,
-			name: "Proveedor tipo 1",
-		},
-		{
-			id: 2,
-			name: "Proveedor tipo 2",
-		},
-	];
-
 	return (
 		<>
 			<Flex
@@ -126,7 +129,9 @@ const StepOne = () => {
 					width={"80%"}
 				>
 					<Stack align={"center"}>
-						<Heading fontSize={"4xl"}>Pre Registro Paso 1</Heading>
+						<Logo />
+
+						<Heading fontSize={"xl"}>Paso 1/3</Heading>
 					</Stack>
 					<Box
 						rounded={"lg"}
@@ -260,7 +265,7 @@ const StepOne = () => {
 										value={formik.values.type_provider}
 										onChange={formik.handleChange}
 									>
-										{typeProvider.map((provider) => (
+										{typeProviders.map((provider: IOptions) => (
 											<option
 												value={provider.id}
 												key={provider.id}
