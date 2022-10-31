@@ -29,6 +29,7 @@ import { useFormik } from "formik";
 import { Link } from "@chakra-ui/react";
 import api from "@/lib/api";
 import { getToken } from "@/services/local-storage.service";
+import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
 
 const create = () => {
 	const { user } = useAuth({ middleware: "auth" });
@@ -68,7 +69,7 @@ const create = () => {
 					}
 				);
 
-				if (response.status === 201) {
+				if (response.status === HttpStatusCode.Created) {
 					toast({
 						title: `Se guardo la tienda correctamente`,
 						status: "success",

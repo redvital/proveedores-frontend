@@ -32,6 +32,7 @@ import api from "@/lib/api";
 import { getToken } from "@/services/local-storage.service";
 import { useState, useEffect } from "react";
 import { IRepresentative } from "@/interfaces/representative.interface";
+import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
 
 const edit = () => {
 	const { user } = useAuth({ middleware: "auth" });
@@ -94,7 +95,7 @@ const edit = () => {
 					}
 				);
 
-				if (response.status === 200) {
+				if (response.status === HttpStatusCode.Ok) {
 					toast({
 						title: `Se actualizo el representante correctamente`,
 						status: "success",

@@ -32,6 +32,7 @@ import api from "@/lib/api";
 import { useEffect, useState } from "react";
 import { getToken } from "@/services/local-storage.service";
 import { IStore } from "@/interfaces/store.interface";
+import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
 
 const View = () => {
 	const { user } = useAuth({ middleware: "auth" });
@@ -94,7 +95,7 @@ const View = () => {
 					}
 				);
 
-				if (response.status === 200) {
+				if (response.status === HttpStatusCode.Ok) {
 					toast({
 						title: `Se actualizo la tienda correctamente`,
 						status: "success",

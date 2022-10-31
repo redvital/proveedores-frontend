@@ -22,6 +22,7 @@ import Logo from "@/components/Logo";
 import { useState, useEffect } from "react";
 import { getTypeProviders } from "@/services/options.service";
 import { IOptions } from "@/interfaces/options.interface";
+import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
 
 const StepOne = () => {
 	const toast = useToast();
@@ -85,7 +86,7 @@ const StepOne = () => {
 					provider_type: type_provider,
 				});
 
-				if (response.status === 201) {
+				if (response.status === HttpStatusCode.Created) {
 					toast({
 						title: `Se guardaron los datos correctamente, espere mientras se redirection al siguiente paso`,
 						status: "success",

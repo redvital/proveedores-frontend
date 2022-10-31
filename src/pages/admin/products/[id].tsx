@@ -32,6 +32,7 @@ import api from "@/lib/api";
 import { getToken } from "@/services/local-storage.service";
 import { useEffect, useState } from "react";
 import { IProducts } from "@/interfaces/product.interface";
+import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
 
 const edit = () => {
 	const { user } = useAuth({ middleware: "auth" });
@@ -186,7 +187,7 @@ const edit = () => {
 					}
 				);
 
-				if (response.status === 200) {
+				if (response.status === HttpStatusCode.Ok) {
 					toast({
 						title: `Se actualizo el producto correctamente`,
 						status: "success",
@@ -432,7 +433,7 @@ const edit = () => {
 								onChange={formik.handleChange}
 							/>
 							<FormErrorMessage>
-								{formik.touched.packing_quantity &&
+							{formik.touched.packing_quantity &&
 									formik.errors.packing_quantity}
 							</FormErrorMessage>
 						</FormControl>
