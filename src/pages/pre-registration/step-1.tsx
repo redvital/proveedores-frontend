@@ -1,3 +1,4 @@
+import api from "@/lib/api";
 import {
 	Stack,
 	FormControl,
@@ -12,11 +13,16 @@ import {
 	Box,
 	useColorModeValue,
 	Button,
+	useToast,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useRouter } from "next/router";
 
 const StepOne = () => {
+	const toast = useToast();
+	const router = useRouter();
+
 	const formik = useFormik({
 		initialValues: {
 			contact_name: "",
@@ -35,41 +41,60 @@ const StepOne = () => {
 				.required("El correo es obligatorio"),
 			phone: Yup.string().required("El teléfono es obligatorio"),
 			tradename: Yup.string().required("La razón social es obligatoria"),
-			rif: Yup.string().required("El rif es obligatorio"),
+			rif: Yup.string()
+				.required("El rif es obligatorio")
+				.matches(
+					/^([VEJPGvejpg]{1})-([0-9]{8})-([0-9]{1}$)/g,
+					"El rif no es valido, ej J-12345678-1"
+				),
 			type_provider: Yup.number()
 				.min(1, "El tipo de proveedor es obligatorio")
 				.required("El tipo de proveedor es obligatorio"),
 		}),
 		onSubmit: async (data) => {
-			alert("holaaa");
+			try {
+				const {
+					contact_name,
+					email,
+					phone,
+					tradename,
+					rif,
+					type_provider,
+				} = data;
 
-			// try {
-			// 	const {
-			// 		contact_name,
-			// 		email,
-			// 		phone,
-			// 		tradename,
-			// 		rif,
-			// 		type_provider,
-			// 	} = data;
+				const response = await api.post("/provider", {
+					name: contact_name,
+					email: email,
+					phone_number: phone,
+					company: tradename,
+					rif: rif,
+					provider_type: type_provider,
+				});
 
-			// 	const result = await api.post("/providers", {
-			// 		name: contact_name,
-			// 		email: email,
-			// 		phone_number: phone,
-			// 		company: tradename,
-			// 		rif: rif,
-			// 		provider_type: type_provider,
-			// 	});
+				if (response.status === 201) {
+					toast({
+						title: `Se guardaron los datos correctamente, espere mientras se redirection al siguiente paso`,
+						status: "success",
+					});
 
-			// 	if (result.status === 201) {
-			// 		alert(result.data);
-			// 	} else {
-			// 		alert(result.data);
-			// 	}
-			// } catch (error) {
-			// 	alert(error);
-			// }
+					const providerId = response.data.data.id;
+
+					formik.resetForm();
+					setTimeout(() => {
+						toast.closeAll();
+						router.push(
+							`/pre-registration/step-2?provider=${providerId}`
+						);
+					}, 5000);
+				}
+			} catch (error) {
+				console.error("error: ", error);
+				const err = error as any;
+				toast({
+					title: `${err.message}`,
+					status: "error",
+				});
+			}
 		},
 	});
 
@@ -134,6 +159,27 @@ const StepOne = () => {
 								</FormControl>
 
 								<FormControl
+									id='tradename'
+									isInvalid={
+										formik.errors.tradename &&
+										formik.touched.tradename
+											? true
+											: false
+									}
+								>
+									<FormLabel>Razón Social</FormLabel>
+									<Input
+										type='text'
+										value={formik.values.tradename}
+										onChange={formik.handleChange}
+									/>
+									<FormErrorMessage>
+										{formik.touched.tradename &&
+											formik.errors.tradename}
+									</FormErrorMessage>
+								</FormControl>
+
+								<FormControl
 									id='email'
 									isInvalid={
 										formik.errors.email &&
@@ -164,7 +210,7 @@ const StepOne = () => {
 											: false
 									}
 								>
-									<FormLabel>Telefono de contacto</FormLabel>
+									<FormLabel>Teléfono de contacto</FormLabel>
 									<Input
 										type='text'
 										value={formik.values.phone}
@@ -246,7 +292,7 @@ const StepOne = () => {
 								</Stack>
 							</Stack> */}
 
-                            <Stack direction={"row"} spacing={4} marginTop={4}>
+							<Stack direction={"row"} spacing={4} marginTop={4}>
 								<Button
 									bg={"brand.400"}
 									color={"white"}

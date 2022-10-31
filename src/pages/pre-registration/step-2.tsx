@@ -12,11 +12,23 @@ import {
 	Box,
 	useColorModeValue,
 	Button,
+	useToast,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useRouter } from "next/router";
+import api from "@/lib/api";
+import { getToken } from "@/services/local-storage.service";
 
 const StepTwo = () => {
+	const router = useRouter();
+
+	const toast = useToast();
+
+	const providerId = router.query.provider;
+
+	const token = getToken();
+
 	const formik = useFormik({
 		initialValues: {
 			address: "",
@@ -29,6 +41,7 @@ const StepTwo = () => {
 			commercial_register: "",
 			rif: "",
 			document_identity: "",
+			checked: [],
 		},
 		validationSchema: Yup.object({
 			address: Yup.string().required("La direección es requerida"),
@@ -39,7 +52,7 @@ const StepTwo = () => {
 			payment: Yup.number()
 				.required("El método de pago es requerido")
 				.min(1, "El método de pago es requerido"),
-			enabled: Yup.array().required("Seleccione una opción"),
+			// enabled: Yup.array().required("Seleccione una opción"),
 			// commercial_register: Yup.string().required(
 			// 	"El registro comercial es requerido"
 			// ),
@@ -49,7 +62,50 @@ const StepTwo = () => {
 			// ),
 		}),
 		onSubmit: async (data) => {
-			alert(JSON.stringify(data, null, 2));
+			const { address, postal_code, web_site, tradename, payment } = data;
+
+			try {
+				const response = await api.post(
+					`provider/${providerId}/additionalsupplierinformation`,
+					{
+						fiscal_address: address,
+						state: "Carabobo",
+						postal_code: postal_code,
+						web_page: web_site,
+						commercial_name: tradename,
+						retention: 1,
+						consignment: 1,
+						payment_condition: 1,
+					},
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				);
+
+				if (response.status === 201) {
+					toast({
+						title: "Paso dos completado, espere mientras se redirecciona al ultimo paso",
+						status: "success",
+					});
+
+					formik.resetForm();
+					setTimeout(() => {
+						toast.closeAll();
+						router.push(
+							`/pre-registration/step-3?provider=${providerId}`
+						);
+					}, 5000);
+				}
+			} catch (error) {
+				console.error("error: ", error);
+				const err = error as any;
+				toast({
+					title: `${err.message}`,
+					status: "error",
+				});
+			}
 		},
 	});
 
@@ -251,10 +307,10 @@ const StepTwo = () => {
 								</FormControl>
 
 								<FormControl
-									id='enabled'
+									id='checked'
 									isInvalid={
-										formik.touched.enabled &&
-										formik.errors.enabled
+										formik.touched.checked &&
+										formik.errors.checked
 											? true
 											: false
 									}
@@ -262,30 +318,32 @@ const StepTwo = () => {
 									<FormLabel>Habilitado para</FormLabel>
 									<Stack spacing={5} direction='row'>
 										<Checkbox
+											name='checked'
 											colorScheme='green'
 											defaultChecked
 											value='Retenciones'
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
-											defaultValue={formik.values.enabled}
+											defaultValue={formik.values.checked}
 										>
 											Retenciones
 										</Checkbox>
 										<Checkbox
 											colorScheme='green'
 											defaultChecked
+											name='checked'
 											value='Consignaciones'
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
-											defaultValue={formik.values.enabled}
+											defaultValue={formik.values.checked}
 										>
 											Consignaciones
 										</Checkbox>
 									</Stack>
 
 									<FormErrorMessage>
-										{formik.touched.enabled &&
-											formik.errors.enabled}
+										{formik.touched.checked &&
+											formik.errors.checked}
 									</FormErrorMessage>
 								</FormControl>
 							</Stack>

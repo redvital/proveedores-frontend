@@ -33,7 +33,7 @@ import { getToken } from "@/services/local-storage.service";
 import { useEffect, useState } from "react";
 import { IProviders } from "@/interfaces/provider.interface";
 
-const view = () => {
+const edit = () => {
 	const { user } = useAuth({ middleware: "auth" });
 	const router = useRouter();
 	const { id } = router.query;
@@ -53,7 +53,7 @@ const view = () => {
 		},
 	];
 
-	const isDisabled = true;
+	const isDisabled = false;
 	const [provider, setProvider] = useState<IProviders>({} as IProviders);
 
 	const getProvider = async (providerId: any) => {
@@ -106,7 +106,7 @@ const view = () => {
 				if (!formik.isValid) return;
 
 				const response = await api.post(
-					"provider",
+					`provider/${id}`,
 					{
 						name: name,
 						email: email,
@@ -114,6 +114,7 @@ const view = () => {
 						company: company,
 						rif: rif,
 						provider_type: provider_type,
+						id: id,
 					},
 					{
 						headers: {
@@ -122,13 +123,13 @@ const view = () => {
 					}
 				);
 
-				if (response.status === 201) {
+				if (response.status === 200) {
 					toast({
 						title: `Se actualizo el proveedor correctamente`,
 						status: "success",
 					});
 
-					formik.resetForm();
+					await getProvider(id);
 				}
 			} catch (error) {
 				console.error("error: ", error);
@@ -314,19 +315,17 @@ const view = () => {
 								</Button>
 							</Link>
 
-							{!isDisabled ? (
-								<Button
-									bg={"brand.400"}
-									color={"white"}
-									_hover={{
-										bg: "brand.500",
-									}}
-									type='submit'
-									disabled={isDisabled}
-								>
-									Guardar
-								</Button>
-							) : null}
+							<Button
+								bg={"brand.400"}
+								color={"white"}
+								_hover={{
+									bg: "brand.500",
+								}}
+								type='submit'
+								disabled={isDisabled}
+							>
+								Actualizar
+							</Button>
 						</Stack>
 					</Box>
 				</form>
@@ -335,4 +334,4 @@ const view = () => {
 	);
 };
 
-export default view;
+export default edit;

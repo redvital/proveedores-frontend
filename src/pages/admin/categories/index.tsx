@@ -127,7 +127,7 @@ const index = () => {
 							</Thead>
 							<Tbody>
 								{categories.map(({ id, name, description }) => (
-									<Tr>
+									<Tr key={id}>
 										<Td>{id}</Td>
 										<Td>{name}</Td>
 										<Td>{description}</Td>
@@ -146,7 +146,7 @@ const index = () => {
 												</Link>
 
 												<Link
-													href={`/admin/categories/${id}`}
+													href={`/admin/categories/edit/${id}`}
 												>
 													<Button
 														leftIcon={<EditIcon />}
