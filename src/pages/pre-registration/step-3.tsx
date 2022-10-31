@@ -10,12 +10,24 @@ import {
 	Flex,
 	Box,
 	Heading,
+	useToast,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useColorModeValue } from "@chakra-ui/react";
+import api from "@/lib/api";
+import { useRouter } from "next/router";
+import { getToken } from "@/services/local-storage.service";
 
 const StepThree = () => {
+	const router = useRouter();
+
+	const toast = useToast();
+
+	const providerId = router.query.provider;
+
+	const token = getToken();
+
 	const formik = useFormik({
 		initialValues: {
 			payment_method: "",
@@ -46,7 +58,57 @@ const StepThree = () => {
 			observation: Yup.string().required("La observación es requerida"),
 		}),
 		onSubmit: async (data) => {
-			alert(data);
+			try {
+				const {
+					payment_method,
+					bank,
+					currency,
+					account_type,
+					account_number,
+					beneficiary,
+					document_number,
+					observation,
+				} = data;
+
+				const response = await api.post(
+					`provider/${providerId}/supplierbankdetails`,
+					{
+						bank: bank,
+						currency: currency,
+						method_of_payment: payment_method,
+						account_type: account_type,
+						account_number: account_number,
+						account_holder: beneficiary,
+						rif: document_number,
+						supplier_id: providerId,
+					},
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				);
+
+				if (response.status === 201) {
+					toast({
+						title: "El registro fue completado con éxito",
+						status: "success",
+					});
+
+					formik.resetForm();
+					setTimeout(() => {
+						toast.closeAll();
+						router.push(`/admin/login`);
+					}, 5000);
+				}
+			} catch (error) {
+				console.error("error: ", error);
+				const err = error as any;
+				toast({
+					title: `${err.message}`,
+					status: "error",
+				});
+			}
 		},
 	});
 
@@ -311,7 +373,7 @@ const StepThree = () => {
 											: false
 									}
 								>
-									<FormLabel>Observacion</FormLabel>
+									<FormLabel>Observación</FormLabel>
 									<Textarea
 										placeholder='Escribe tu observación o comentario'
 										value={formik.values.observation}

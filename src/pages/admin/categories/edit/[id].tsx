@@ -41,7 +41,7 @@ const View = () => {
 	const [category, setCategory] = useState<ICategory>({} as ICategory);
 	const toast = useToast();
 
-	const isDisabled = true;
+	const isDisabled = false;
 
 	const getCategory = async (idCategory: any) => {
 		const response = await api.get(`category/${idCategory}`, {
@@ -75,7 +75,7 @@ const View = () => {
 			try {
 				if (!formik.isValid) return;
 
-				const response = await api.put(
+				const response = await api.post(
 					`category/${id}`,
 					{
 						name: name,
@@ -94,7 +94,7 @@ const View = () => {
 						status: "success",
 					});
 
-					formik.resetForm();
+					await getCategory(id);
 				}
 			} catch (error) {
 				console.error("error: ", error);
@@ -121,7 +121,7 @@ const View = () => {
 
 				<BreadcrumbItem>
 					<BreadcrumbLink>
-						<Text fontSize='2xl'>Ver Categoría</Text>
+						<Text fontSize='2xl'>Actualizar Categoría</Text>
 					</BreadcrumbLink>
 				</BreadcrumbItem>
 

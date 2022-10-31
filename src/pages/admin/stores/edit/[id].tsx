@@ -31,55 +31,61 @@ import { useAuth } from "@/hooks/auth";
 import api from "@/lib/api";
 import { useEffect, useState } from "react";
 import { getToken } from "@/services/local-storage.service";
-import { ICategory } from "@/interfaces/categories.interface";
+import { IStore } from "@/interfaces/store.interface";
 
 const View = () => {
 	const { user } = useAuth({ middleware: "auth" });
 	const router = useRouter();
 	const { id } = router.query;
 	const token = getToken();
-	const [category, setCategory] = useState<ICategory>({} as ICategory);
+	const [store, setStore] = useState<IStore>({} as IStore);
 	const toast = useToast();
 
-	const isDisabled = true;
+	const isDisabled = false;
 
-	const getCategory = async (idCategory: any) => {
-		const response = await api.get(`category/${idCategory}`, {
+	const getStore = async (idStore: any) => {
+		const response = await api.get(`store/${idStore}`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
 		});
 
-		setCategory(response.data.data);
+		setStore(response.data.data);
 	};
 
 	useEffect(() => {
 		if (id) {
-			getCategory(id);
+			getStore(id);
 		}
 	}, [id]);
 
-	if (!category) return <div> Espere... </div>;
+	if (!store) return <div> Espere... </div>;
 
 	const formik = useFormik({
 		initialValues: {
-			name: category.name ? category.name : "",
-			description: category.description ? category.description : "",
+			name: store.name ? store.name : "",
+			description: store.description ? store.description : "",
+			location: store.location ? store.location : "",
+			code: store.code ? store.code : "",
 		},
 		validationSchema: Yup.object({
 			name: Yup.string().required("El nombre es obligatorio"),
 			description: Yup.string().required("La descripción obligatorio"),
+			location: Yup.string().required("La ubicación es obligatorio"),
+			code: Yup.string().required("El código es obligatorio"),
 		}),
 		enableReinitialize: true,
-		onSubmit: async ({ name, description }) => {
+		onSubmit: async ({ name, description, location, code }) => {
 			try {
 				if (!formik.isValid) return;
 
-				const response = await api.put(
-					`category/${id}`,
+				const response = await api.post(
+					`store/${id}`,
 					{
 						name: name,
 						description: description,
+						location: location,
+						code: code,
 					},
 					{
 						headers: {
@@ -90,11 +96,11 @@ const View = () => {
 
 				if (response.status === 200) {
 					toast({
-						title: `Se actualizo la categoría correctamente`,
+						title: `Se actualizo la tienda correctamente`,
 						status: "success",
 					});
 
-					formik.resetForm();
+					await getStore(id);
 				}
 			} catch (error) {
 				console.error("error: ", error);
@@ -114,14 +120,14 @@ const View = () => {
 				separator={<ChevronRightIcon color='gray.500' />}
 			>
 				<BreadcrumbItem>
-					<BreadcrumbLink href='/admin/categories'>
-						<Text fontSize='2xl'>Lista de Categorías</Text>
+					<BreadcrumbLink href='/admin/stores'>
+						<Text fontSize='2xl'>Lista de Tiendas</Text>
 					</BreadcrumbLink>
 				</BreadcrumbItem>
 
 				<BreadcrumbItem>
 					<BreadcrumbLink>
-						<Text fontSize='2xl'>Ver Categoría</Text>
+						<Text fontSize='2xl'>Actualizar Tienda</Text>
 					</BreadcrumbLink>
 				</BreadcrumbItem>
 
@@ -181,8 +187,50 @@ const View = () => {
 							</FormErrorMessage>
 						</FormControl>
 
+						<FormControl
+							id='location'
+							isInvalid={
+								formik.errors.location &&
+								formik.touched.location
+									? true
+									: false
+							}
+						>
+							<FormLabel>Ubicación</FormLabel>
+							<Input
+								type='text'
+								value={formik.values.location}
+								onChange={formik.handleChange}
+								readOnly={isDisabled}
+							/>
+							<FormErrorMessage>
+								{formik.touched.location &&
+									formik.errors.location}
+							</FormErrorMessage>
+						</FormControl>
+
+						<FormControl
+							id='code'
+							isInvalid={
+								formik.errors.code && formik.touched.code
+									? true
+									: false
+							}
+						>
+							<FormLabel>Código</FormLabel>
+							<Input
+								type='text'
+								value={formik.values.code}
+								onChange={formik.handleChange}
+								readOnly={isDisabled}
+							/>
+							<FormErrorMessage>
+								{formik.touched.code && formik.errors.code}
+							</FormErrorMessage>
+						</FormControl>
+
 						<Stack direction={"row"} spacing={4} marginTop={4}>
-							<Link href={"/admin/categories"}>
+							<Link href={"/admin/stores"}>
 								<Button
 									bg={"red.300"}
 									color={"white"}
@@ -194,6 +242,7 @@ const View = () => {
 									Cancelar
 								</Button>
 							</Link>
+
 							{!isDisabled ? (
 								<Button
 									bg={"brand.400"}
@@ -202,7 +251,6 @@ const View = () => {
 										bg: "brand.500",
 									}}
 									type='submit'
-									disabled={isDisabled}
 								>
 									Actualizar
 								</Button>

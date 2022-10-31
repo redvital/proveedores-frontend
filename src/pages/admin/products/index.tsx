@@ -150,7 +150,7 @@ const index = () => {
 										updated_at,
 										status,
 									}) => (
-										<Tr>
+										<Tr key={id}>
 											<Td>{id}</Td>
 											<Td>{name}</Td>
 											<Td>{sku_provider}</Td>
@@ -191,7 +191,7 @@ const index = () => {
 													</Link>
 
 													<Link
-														href={`/admin/products/${id}`}
+														href={`/admin/products/edit/${id}`}
 													>
 														<Button
 															leftIcon={

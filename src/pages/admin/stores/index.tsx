@@ -129,7 +129,7 @@ const index = () => {
 							</Thead>
 							<Tbody>
 								{stores.map(({ id, name, description, location, code }) => (
-									<Tr>
+									<Tr key={id}>
 										<Td>{id}</Td>
 										<Td>{name}</Td>
 										<Td>{description}</Td>
@@ -150,7 +150,7 @@ const index = () => {
 												</Link>
 
 												<Link
-													href={`/admin/stores/${id}`}
+													href={`/admin/stores/edit/${id}`}
 												>
 													<Button
 														leftIcon={<EditIcon />}

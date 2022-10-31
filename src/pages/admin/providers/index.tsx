@@ -93,7 +93,7 @@ const index = () => {
 					</InputRightElement>
 				</InputGroup>
 
-				<Link href='/admin/products/create'>
+				<Link href='/admin/providers/create'>
 					<Button
 						colorScheme='blue'
 						bgGradient='linear(to-r, brand.400, brand.500, brand.600)'
@@ -168,7 +168,7 @@ const index = () => {
 													</Link>
 
 													<Link
-														href={`/admin/providers/${id}`}
+														href={`/admin/providers/edit/${id}`}
 													>
 														<Button
 															leftIcon={
