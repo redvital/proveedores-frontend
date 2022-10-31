@@ -44,7 +44,7 @@ const edit = () => {
 	const [representative, setRepresentative] = useState<IRepresentative>(
 		{} as IRepresentative
 	);
-	const isDisabled = true;
+	const isDisabled = false;
 
 	const getRepresentative = async (representativeId: any) => {
 		const response = await api.get(`representative/${representativeId}`, {
@@ -99,6 +99,8 @@ const edit = () => {
 						title: `Se actualizo el representante correctamente`,
 						status: "success",
 					});
+
+						await getRepresentative(id);
 				}
 			} catch (error) {
 				console.error("error: ", error);
@@ -125,7 +127,7 @@ const edit = () => {
 
 				<BreadcrumbItem>
 					<BreadcrumbLink>
-						<Text fontSize='2xl'>Ver Representante</Text>
+						<Text fontSize='2xl'>Actualizar Representante</Text>
 					</BreadcrumbLink>
 				</BreadcrumbItem>
 

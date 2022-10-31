@@ -153,7 +153,7 @@ const index = () => {
 													</Link>
 
 													<Link
-														href={`/admin/representatives/${id}`}
+														href={`/admin/representatives/edit/${id}`}
 													>
 														<Button
 															leftIcon={
