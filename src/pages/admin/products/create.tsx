@@ -29,8 +29,15 @@ import { useFormik } from "formik";
 import { Link } from "@chakra-ui/react";
 import api from "@/lib/api";
 import { getToken } from "@/services/local-storage.service";
-import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
-
+import { HttpStatusCode } from "@/app/common/enums/httpStatusCode";
+import { useState, useEffect } from "react";
+import {
+	getCurrencyOptions,
+	getCategoryOptions,
+	getSpecialPaymentMethodsOptions,
+	getConditionsOptions,
+} from "@/services/options.service";
+import { IOptions } from "@/interfaces/options.interface";
 
 const create = () => {
 	const { user } = useAuth({ middleware: "auth" });
@@ -38,45 +45,21 @@ const create = () => {
 
 	const toast = useToast();
 
-	const categories = [
-		{
-			id: 1,
-			name: "Categoria 1",
-		},
-		{
-			id: 2,
-			name: "Categoria 2",
-		},
-	];
+	const [categories, setCategories] = useState([]);
+	const [specialPaymentMethods, setSpecialPaymentMethods] = useState([]);
+	const [conditions, setConditions] = useState([]);
+	const [currencies, setCurrencies] = useState([]);
 
-	const specialPaymentMethods = [
-		{
-			id: 1,
-			name: "Efectivo",
-		},
-		{
-			id: 2,
-			name: "Tarjeta de crédito",
-		},
-	];
+	const loadSelects = async () => {
+		await getCategoryOptions(setCategories);
+		await getSpecialPaymentMethodsOptions(setSpecialPaymentMethods);
+		await getConditionsOptions(setConditions);
+		await getCurrencyOptions(setCurrencies);
+	};
 
-	const conditions = [
-		{
-			id: 1,
-			name: "Nuevo",
-		},
-	];
-
-	const currencies = [
-		{
-			id: 1,
-			name: "MXN",
-		},
-		{
-			id: 2,
-			name: "USD",
-		},
-	];
+	useEffect(() => {
+		loadSelects();
+	}, []);
 
 	const formik = useFormik({
 		initialValues: {
@@ -163,15 +146,13 @@ const create = () => {
 					toast({
 						title: `Se guardo el producto correctamente`,
 						status: "success",
-
 					});
 
 					formik.resetForm();
 				}
 			} catch (error) {
-
 				console.error("error: ", error);
-				const err = error as any
+				const err = error as any;
 				toast({
 					title: `${err.message}`,
 					status: "error",
@@ -241,7 +222,7 @@ const create = () => {
 								value={formik.values.category_id}
 								onChange={formik.handleChange}
 							>
-								{categories.map((category) => (
+								{categories.map((category: IOptions) => (
 									<option value={category.id}>
 										{category.name}
 									</option>
@@ -307,11 +288,13 @@ const create = () => {
 								value={formik.values.special_payment_method}
 								onChange={formik.handleChange}
 							>
-								{specialPaymentMethods.map((paymentMethod) => (
-									<option value={paymentMethod.id}>
-										{paymentMethod.name}
-									</option>
-								))}
+								{specialPaymentMethods.map(
+									(paymentMethod: IOptions) => (
+										<option value={paymentMethod.id}>
+											{paymentMethod.name}
+										</option>
+									)
+								)}
 							</Select>
 							<FormErrorMessage>
 								{formik.touched.special_payment_method &&
@@ -334,7 +317,7 @@ const create = () => {
 								value={formik.values.condition}
 								onChange={formik.handleChange}
 							>
-								{conditions.map((condition) => (
+								{conditions.map((condition: IOptions) => (
 									<option value={condition.id}>
 										{condition.name}
 									</option>
@@ -361,7 +344,7 @@ const create = () => {
 								value={formik.values.category_id}
 								onChange={formik.handleChange}
 							>
-								{currencies.map((currency) => (
+								{currencies.map((currency: IOptions) => (
 									<option value={currency.id}>
 										{currency.name}
 									</option>

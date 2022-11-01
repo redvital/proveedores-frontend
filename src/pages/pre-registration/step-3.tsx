@@ -79,8 +79,11 @@ const StepThree = () => {
 				"El número de cuenta es requerido"
 			),
 			beneficiary: Yup.string().required("El beneficiario es requerido"),
-			document_number: Yup.string().required(
-				"El número de documento es requerido"
+			document_number: Yup.string()
+			.required("El rif es obligatorio")
+			.matches(
+				/^([VEJPGvejpg]{1})-([0-9]{8})-([0-9]{1}$)/g,
+				"El rif no es valido, ej J-12345678-1 o j-12345678-1"
 			),
 			observation: Yup.string().required("La observación es requerida"),
 		}),

@@ -123,3 +123,49 @@ export const getAccountTypesOptions = async (
 		console.error(error);
 	}
 };
+
+export const getCategoryOptions = async (
+	set: Dispatch<SetStateAction<never[]>>
+) => {
+	try {
+		const response = await api.get(
+			"https://jsonplaceholder.typicode.com/todos"
+		);
+
+		const data = mapper(response.data);
+
+		set(data);
+	} catch (error) {
+		console.error(error);
+	}
+};
+export const getSpecialPaymentMethodsOptions = async (
+	set: Dispatch<SetStateAction<never[]>>
+) => {
+	try {
+		const response = await api.get(
+			"https://jsonplaceholder.typicode.com/todos"
+		);
+
+		const data = mapper(response.data);
+
+		set(data);
+	} catch (error) {
+		console.error(error);
+	}
+};
+export const getConditionsOptions = async (
+	set: Dispatch<SetStateAction<never[]>>
+) => {
+	try {
+		const response = await api.get(
+			"https://jsonplaceholder.typicode.com/todos"
+		);
+
+		const data = mapper(response.data);
+
+		set(data);
+	} catch (error) {
+		console.error(error);
+	}
+};
