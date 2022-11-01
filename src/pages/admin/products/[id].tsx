@@ -32,7 +32,8 @@ import api from "@/lib/api";
 import { getToken } from "@/services/local-storage.service";
 import { useEffect, useState } from "react";
 import { IProducts } from "@/interfaces/product.interface";
-import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
+import { HttpStatusCode } from "@/app/common/enums/httpStatusCode";
+import { IOptions } from "@/interfaces/options.interface";
 
 const edit = () => {
 	const { user } = useAuth({ middleware: "auth" });
@@ -43,46 +44,21 @@ const edit = () => {
 
 	const toast = useToast();
 
-	const categories = [
-		{
-			id: 1,
-			name: "Categoria 1",
-		},
-		{
-			id: 2,
-			name: "Categoria 2",
-		},
-	];
+	const [categories, setCategories] = useState([]);
+	const [specialPaymentMethods, setSpecialPaymentMethods] = useState([]);
+	const [conditions, setConditions] = useState([]);
+	const [currencies, setCurrencies] = useState([]);
 
-	const specialPaymentMethods = [
-		{
-			id: 1,
-			name: "Efectivo",
-		},
-		{
-			id: 2,
-			name: "Tarjeta de crédito",
-		},
-	];
+	const loadSelects = async () => {
+		await getCategoryOptions(setCategories);
+		await getSpecialPaymentMethodsOptions(setSpecialPaymentMethods);
+		await getConditionsOptions(setConditions);
+		await getCurrencyOptions(setCurrencies);
+	};
 
-	const conditions = [
-		{
-			id: 1,
-			name: "Nuevo",
-		},
-	];
-
-	const currencies = [
-		{
-			id: 1,
-			name: "MXN",
-		},
-		{
-			id: 2,
-			name: "USD",
-		},
-	];
-
+	useEffect(() => {
+		loadSelects();
+	}, []);
 	const isDisabled = true;
 
 	const [product, setProduct] = useState<IProducts>({} as IProducts);
@@ -273,7 +249,7 @@ const edit = () => {
 								value={formik.values.category_id}
 								onChange={formik.handleChange}
 							>
-								{categories.map((category) => (
+								{categories.map((category: IOptions) => (
 									<option
 										value={category.id}
 										key={category.id}
@@ -342,14 +318,16 @@ const edit = () => {
 								value={formik.values.special_payment_method}
 								onChange={formik.handleChange}
 							>
-								{specialPaymentMethods.map((paymentMethod) => (
-									<option
-										value={paymentMethod.id}
-										key={paymentMethod.id}
-									>
-										{paymentMethod.name}
-									</option>
-								))}
+								{specialPaymentMethods.map(
+									(paymentMethod: IOptions) => (
+										<option
+											value={paymentMethod.id}
+											key={paymentMethod.id}
+										>
+											{paymentMethod.name}
+										</option>
+									)
+								)}
 							</Select>
 							<FormErrorMessage>
 								{formik.touched.special_payment_method &&
@@ -372,7 +350,7 @@ const edit = () => {
 								value={formik.values.condition}
 								onChange={formik.handleChange}
 							>
-								{conditions.map((condition) => (
+								{conditions.map((condition: IOptions) => (
 									<option
 										value={condition.id}
 										key={condition.id}
@@ -402,7 +380,7 @@ const edit = () => {
 								value={formik.values.category_id}
 								onChange={formik.handleChange}
 							>
-								{currencies.map((currency) => (
+								{currencies.map((currency: IOptions) => (
 									<option
 										value={currency.id}
 										key={currency.id}
@@ -433,7 +411,7 @@ const edit = () => {
 								onChange={formik.handleChange}
 							/>
 							<FormErrorMessage>
-							{formik.touched.packing_quantity &&
+								{formik.touched.packing_quantity &&
 									formik.errors.packing_quantity}
 							</FormErrorMessage>
 						</FormControl>

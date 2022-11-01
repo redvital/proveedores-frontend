@@ -33,6 +33,8 @@ import { getToken } from "@/services/local-storage.service";
 import { useEffect, useState } from "react";
 import { IProviders } from "@/interfaces/provider.interface";
 import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
+import { getTypeProviders } from "@/services/options.service"
+import { IOptions } from "@/interfaces/options.interface"
 
 const view = () => {
 	const { user } = useAuth({ middleware: "auth" });
@@ -40,19 +42,16 @@ const view = () => {
 	const { id } = router.query;
 
 	const token = getToken();
-
 	const toast = useToast();
 
-	const providerType = [
-		{
-			id: 1,
-			name: "provider 1",
-		},
-		{
-			id: 2,
-			name: "provider 2",
-		},
-	];
+	const [typeProviders, setTypeProviders] = useState([]);
+	const loadSelects = async () => {
+		await getTypeProviders(setTypeProviders);
+	};
+
+	useEffect(() => {
+		loadSelects();
+	}, []);
 
 	const isDisabled = true;
 	const [provider, setProvider] = useState<IProviders>({} as IProviders);
@@ -286,7 +285,7 @@ const view = () => {
 								onChange={formik.handleChange}
 								disabled={isDisabled}
 							>
-								{providerType.map((provider) => (
+								{typeProviders.map((provider: IOptions) => (
 									<option
 										value={provider.id}
 										key={provider.id}

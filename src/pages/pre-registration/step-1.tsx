@@ -60,7 +60,7 @@ const StepOne = () => {
 				.required("El rif es obligatorio")
 				.matches(
 					/^([VEJPGvejpg]{1})-([0-9]{8})-([0-9]{1}$)/g,
-					"El rif no es valido, ej J-12345678-1"
+					"El rif no es valido, ej J-12345678-1 o j-12345678-1"
 				),
 			type_provider: Yup.number()
 				.min(1, "El tipo de proveedor es obligatorio")

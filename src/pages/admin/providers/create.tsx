@@ -31,6 +31,8 @@ import api from "@/lib/api";
 import { getToken } from "@/services/local-storage.service";
 import { useEffect, useState } from "react";
 import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
+import { getTypeProviders } from "@/services/options.service"
+import { IOptions } from "@/interfaces/options.interface"
 
 const create = () => {
 	const { user } = useAuth({ middleware: "auth" });
@@ -38,16 +40,14 @@ const create = () => {
 
 	const toast = useToast();
 
-	const providerType = [
-		{
-			id: 1,
-			name: "provider 1",
-		},
-		{
-			id: 2,
-			name: "provider 2",
-		},
-	];
+	const [typeProviders, setTypeProviders] = useState([]);
+	const loadSelects = async () => {
+		await getTypeProviders(setTypeProviders);
+	};
+
+	useEffect(() => {
+		loadSelects();
+	}, []);
 
 	const formik = useFormik({
 		initialValues: {
@@ -63,7 +63,12 @@ const create = () => {
 			email: Yup.string().required("El email es obligatorio"),
 			phone: Yup.string().required("El teléfono es obligatorio"),
 			company: Yup.string().required("La compañía es obligatorio"),
-			rif: Yup.string().required("El rif es obligatorio"),
+			rif: Yup.string()
+			.required("El rif es obligatorio")
+			.matches(
+				/^([VEJPGvejpg]{1})-([0-9]{8})-([0-9]{1}$)/g,
+				"El rif no es valido, ej J-12345678-1 o j-12345678-1"
+			),
 			provider_type: Yup.number()
 				.min(1)
 				.required("El tipo de proveedor es obligatorio"),
@@ -253,7 +258,7 @@ const create = () => {
 								value={formik.values.provider_type}
 								onChange={formik.handleChange}
 							>
-								{providerType.map((provider) => (
+								{typeProviders.map((provider: IOptions) => (
 									<option value={provider.id} key={provider.id}>
 										{provider.name}
 									</option>
