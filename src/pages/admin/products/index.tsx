@@ -1,4 +1,3 @@
-import { useAuth } from "@/hooks/auth";
 import {
 	ChevronRightIcon,
 	ViewIcon,
@@ -36,22 +35,14 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link } from "@chakra-ui/react";
 import { IProducts } from "@/interfaces/product.interface";
-import api from "@/lib/api";
-import { getToken } from "@/services/local-storage.service";
+import { getProducts } from "@/services/products.service"
 
 const index = () => {
-	const { user } = useAuth({ middleware: "auth" });
-	const token = getToken();
 
 	const [products, setProducts] = useState<IProducts[]>([]);
-	const getData = async () => {
-		const { data } = await api.get("supplier/1/products", {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
 
-		setProducts(data.data);
+	const getData = async () => {
+		await getProducts(setProducts);
 	};
 
 	useEffect(() => {
