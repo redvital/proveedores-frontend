@@ -6,6 +6,7 @@ export interface IUser {
 	two_factor_confirmed_at?: any;
 	current_team_id?: any;
 	profile_photo_path?: any;
+	role: string;
 	created_at: Date;
 	updated_at: Date;
 	profile_photo_url: string;

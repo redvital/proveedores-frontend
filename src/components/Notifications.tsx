@@ -43,7 +43,7 @@ export const Notifications = () => {
 	const notificationsOrder = notifications.reverse();
 
 
-	const shortText = (text: string, limit?: number = 35) => {
+	const shortText = ({ text, limit = 35 }: { text: string; limit?: number }) => {
 		if (text.length > limit) {
 			return text.substring(0, limit) + "...";
 		}
@@ -80,7 +80,7 @@ export const Notifications = () => {
 										notification.viewed ? "gray" : "blue"
 									}
 								>
-									{ shortText(notification.title) }
+									{ shortText({ text: notification.title }) }
 								</Button>
 							</Link>
 						))}

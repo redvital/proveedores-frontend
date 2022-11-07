@@ -45,22 +45,54 @@ interface LinkItemProps {
 	name: string;
 	icon: IconType;
 	path: string;
+	permission?: String[];
 }
 
 const LinkItems: Array<LinkItemProps> = [
-	{ name: "Inicio", icon: FiHome, path: "/admin/dashboard" },
-	{ name: "Proveedores", icon: FiTruck, path: "/admin/providers" },
-	{ name: "Productos", icon: FiBox, path: "/admin/products" },
+	{
+		name: "Inicio",
+		icon: FiHome,
+		path: "/admin/dashboard",
+		permission: ["admin", "manager", "client"],
+	},
+	{
+		name: "Proveedores",
+		icon: FiTruck,
+		path: "/admin/providers",
+		permission: ["admin", "manager", "client"],
+	},
+	{
+		name: "Productos",
+		icon: FiBox,
+		path: "/admin/products",
+		permission: ["admin", "manager", "client"],
+	},
 	{
 		name: "Representantes",
 		icon: FiUserPlus,
 		path: "/admin/representatives",
+		permission: ["admin", "manager", "client"],
 	},
-	{ name: "Tiendas", icon: FiShoppingBag, path: "/admin/stores" },
-	{ name: "Categorías", icon: FiBookmark, path: "/admin/categories" },
-	// { name: "Ventas", icon: FiTrendingUp, path: "/admin/sales" },
-	{ name: "Inventarios", icon: FiTag, path: "/admin/inventories" },
-	// { name: "Usuarios", icon: FiUsers, path: "/admin/users" },
+	{
+		name: "Tiendas",
+		icon: FiShoppingBag,
+		path: "/admin/stores",
+		permission: ["admin", "manager", "client"],
+	},
+	{
+		name: "Categorías",
+		icon: FiBookmark,
+		path: "/admin/categories",
+		permission: ["admin", "manager", "client"],
+	},
+	// { name: "Ventas", icon: FiTrendingUp, path: "/admin/sales", permission: ["admin", "manager", "client"] },
+	{
+		name: "Inventarios",
+		icon: FiTag,
+		path: "/admin/inventories",
+		permission: ["admin", "manager", "client"],
+	},
+	// { name: "Usuarios", icon: FiUsers, path: "/admin/users", permission: ["admin", "manager", "client"] },
 ];
 
 export default function Sidebar({
@@ -73,11 +105,13 @@ export default function Sidebar({
 	user: IUser | undefined;
 }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+
 	return (
 		<Box minH='100vh' bg={useColorModeValue("gray.100", "gray.900")}>
 			<SidebarContent
 				onClose={() => onClose}
 				display={{ base: "none", md: "block" }}
+				user={user}
 			/>
 			<Drawer
 				autoFocus={false}
@@ -89,7 +123,7 @@ export default function Sidebar({
 				size='full'
 			>
 				<DrawerContent>
-					<SidebarContent onClose={onClose} />
+					<SidebarContent onClose={onClose} user={user} />
 				</DrawerContent>
 			</Drawer>
 			{/* mobilenav */}
@@ -103,9 +137,10 @@ export default function Sidebar({
 
 interface SidebarProps extends BoxProps {
 	onClose: () => void;
+	user: IUser | undefined;
 }
 
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+const SidebarContent = ({ onClose, user, ...rest }: SidebarProps) => {
 	return (
 		<Box
 			transition='3s ease'
@@ -129,11 +164,27 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 					onClick={onClose}
 				/>
 			</Flex>
-			{LinkItems.map((link) => (
-				<NavItem key={link.name} icon={link.icon} path={link.path}>
-					{link.name}
-				</NavItem>
-			))}
+			{LinkItems.map((link) => {
+				//  permission: ["admin", "manager", "client"]
+				// if (link.permission && user) {
+				// 	if (link.permission.includes(user?.role)) {
+				// 		return (
+				// 			<NavItem
+				// 				key={link.name}
+				// 				icon={link.icon}
+				// 				path={link.path}
+				// 			>
+				// 				{link.name}
+				// 			</NavItem>
+				// 		);
+				// 	}
+				// }
+				return (
+					<NavItem key={link.name} icon={link.icon} path={link.path}>
+						{link.name}
+					</NavItem>
+				);
+			})}
 		</Box>
 	);
 };

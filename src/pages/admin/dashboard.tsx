@@ -6,11 +6,9 @@ import {
 	Text,
 } from "@chakra-ui/react";
 
-import { useAuth } from "@/hooks/auth";
 import Hero from "@/components/Hero";
 
 const dashboard = () => {
-	const { user } = useAuth({ middleware: "auth" });
 
 	return (
 		<>
@@ -27,7 +25,6 @@ const dashboard = () => {
 			</Breadcrumb>
 
 			<Hero />
-			{/* <pre>{JSON.stringify(user, null, 2) ?? "Espere..."}</pre> */}
 		</>
 	);
 };

@@ -67,7 +67,7 @@ const login = () => {
 				</Stack>
 
 				<Stack align={"center"}>
-					<Heading fontSize={"4xl"}>
+					<Heading fontSize={"xl"}>
 						Iniciar sesión en su cuenta
 					</Heading>
 				</Stack>
