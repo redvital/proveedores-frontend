@@ -21,7 +21,7 @@ const Hero = () => {
 			</Flex>
 			<Flex p={8} flex={1} align={"center"} justify={"center"}>
 				<Stack spacing={6} w={"full"} maxW={"lg"}>
-					<Heading fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
+					<Heading fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}>
 						<Text
 							as={"span"}
 							position={"relative"}
@@ -38,11 +38,12 @@ const Hero = () => {
 								bg: "blue.400",
 								zIndex: -1,
 							}}
+
 						>
 							Bienvenido a Proveedores
 						</Text>
 						<br />{" "}
-						<Text color={"blue.400"} as={"span"}>
+						<Text color={"blue.400"} as={"span"} fontSize={"2xl"}>
 							Redvital®
 						</Text>{" "}
 					</Heading>

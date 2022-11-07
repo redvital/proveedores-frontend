@@ -3,8 +3,10 @@ import { AppProps } from "next/app";
 import { extendTheme } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
+import NextNProgress from 'nextjs-progressbar';
 
 import Default from "@/layouts/default";
+
 
 const colors = {
 	brand: {
@@ -32,6 +34,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 		<ChakraProvider theme={theme}>
 				{ !exclude ? (
 					<Default>
+						<NextNProgress color="#29D" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
+
 						<Component {...pageProps} />
 					</Default>
 				) : (
