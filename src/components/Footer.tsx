@@ -49,12 +49,13 @@ export default function SmallWithSocial() {
 	return (
 		<Box
 			style={{
-				position: "fixed",
+				position: "sticky",
 				bottom: 0,
 				width: "100%",
 			}}
 			bg={useColorModeValue("gray.50", "gray.900")}
 			color={useColorModeValue("gray.700", "gray.200")}
+			sx={{ position: '-webkit-sticky', bottom: '0', }}
 		>
 			<Container
 				as={Stack}

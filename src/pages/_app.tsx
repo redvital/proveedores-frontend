@@ -2,11 +2,10 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { AppProps } from "next/app";
 import { extendTheme } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
-import NextNProgress from 'nextjs-progressbar';
+import { StepsStyleConfig as Steps } from "chakra-ui-steps";
+import NextNProgress from "nextjs-progressbar";
 
 import Default from "@/layouts/default";
-
 
 const colors = {
 	brand: {
@@ -19,28 +18,43 @@ const colors = {
 	},
 };
 
-export const theme = extendTheme({ colors, components: {
-	Steps,
-} });
+export const theme = extendTheme({
+	colors,
+	components: {
+		Steps,
+	},
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const router = useRouter();
 
-	const excludePaths = ["admin/login", "admin/register", "pre-registration"];
+	const excludePaths = [
+		"admin/login",
+		"admin/register",
+		"pre-registration",
+		"admin/password-recovery",
+		"admin/change-password",
+	];
 
-	const exclude = excludePaths.some( (path) => router.pathname.includes(path) );
+	const exclude = excludePaths.some((path) => router.pathname.includes(path));
 
 	return (
 		<ChakraProvider theme={theme}>
-				{ !exclude ? (
-					<Default>
-						<NextNProgress color="#29D" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
+			{!exclude ? (
+				<Default>
+					<NextNProgress
+						color='#29D'
+						startPosition={0.3}
+						stopDelayMs={200}
+						height={3}
+						showOnShallow={true}
+					/>
 
-						<Component {...pageProps} />
-					</Default>
-				) : (
 					<Component {...pageProps} />
-				)}
+				</Default>
+			) : (
+				<Component {...pageProps} />
+			)}
 		</ChakraProvider>
 	);
 }
