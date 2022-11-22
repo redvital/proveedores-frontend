@@ -3,6 +3,8 @@ import { Stack, ChakraProvider } from "@chakra-ui/react";
 
 import PaginationTable from "@/components/PaginationTable";
 
+// This components is a example of how to use the PaginationTable component
+
 const Pockemons = () => {
 	const uri = `/supplier/1/products`;
 

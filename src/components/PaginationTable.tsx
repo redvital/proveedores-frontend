@@ -16,8 +16,10 @@ import {
 	Th,
 	Td,
 	Tfoot,
-	Badge,
 	Link,
+	SimpleGrid,
+	Box,
+	Image,
 } from "@chakra-ui/react";
 import {
 	Pagination,
@@ -72,9 +74,7 @@ const PaginationTable: NextPage<Props> = ({
 	};
 
 	// states
-	const [dataTotal, setDataTotal] = useState<number | undefined>(
-		undefined
-	);
+	const [dataTotal, setDataTotal] = useState<number | undefined>(undefined);
 	const [data, setData] = useState<any[]>([]);
 
 	const [page, setPage] = useState(1);
@@ -258,9 +258,7 @@ const PaginationTable: NextPage<Props> = ({
 								{data.map((item: any) => (
 									<Tr key={item.id}>
 										{columnsTable.map((column, index) => (
-											<Td key={index}>
-												{item[column]}
-											</Td>
+											<Td key={index}>{item[column]}</Td>
 										))}
 
 										<Td>

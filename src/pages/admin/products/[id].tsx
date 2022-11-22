@@ -24,6 +24,8 @@ import {
 	FormErrorMessage,
 	Select,
 	useToast,
+	SimpleGrid,
+	Image,
 } from "@chakra-ui/react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -221,251 +223,265 @@ const edit = () => {
 						boxShadow={"lg"}
 						p={8}
 					>
-						<FormControl
-							id='name'
-							isInvalid={
-								formik.errors.name && formik.touched.name
-									? true
-									: false
-							}
-						>
-							<FormLabel>Nombre</FormLabel>
-							<Input
-								type='text'
-								value={formik.values.name}
-								onChange={formik.handleChange}
-							/>
-							<FormErrorMessage>
-								{formik.touched.name && formik.errors.name}
-							</FormErrorMessage>
-						</FormControl>
+						<SimpleGrid columns={[2, null, 3]} spacing='40px'>
+							<Box>
+								<Image
+									src='gibbresh.png'
+									fallbackSrc='https://via.placeholder.com/250'
+								/>
+							</Box>
 
-						<FormControl
-							id='category_id'
-							isInvalid={
-								formik.errors.category_id &&
-								formik.touched.category_id
-									? true
-									: false
-							}
-						>
-							<FormLabel>Categoría</FormLabel>
-
-							<Select
-								placeholder='Seleccione una categoría'
-								value={formik.values.category_id}
-								onChange={formik.handleChange}
+							<Box>
+								<Text fontSize='3xl'>{product.name}</Text>
+							</Box>
+						</SimpleGrid>
+						<SimpleGrid columns={[2, null, 3]} spacing='40px'>
+							<FormControl
+								id='name'
+								isInvalid={
+									formik.errors.name && formik.touched.name
+										? true
+										: false
+								}
 							>
-								{categories.map((category: IOptions) => (
-									<option
-										value={category.id}
-										key={category.id}
-									>
-										{category.name}
-									</option>
-								))}
-							</Select>
-							<FormErrorMessage>
-								{formik.touched.category_id &&
-									formik.errors.category_id}
-							</FormErrorMessage>
-						</FormControl>
+								<FormLabel>Nombre</FormLabel>
+								<Input
+									type='text'
+									value={formik.values.name}
+									onChange={formik.handleChange}
+								/>
+								<FormErrorMessage>
+									{formik.touched.name && formik.errors.name}
+								</FormErrorMessage>
+							</FormControl>
 
-						<FormControl
-							id='sku'
-							isInvalid={
-								formik.errors.sku && formik.touched.sku
-									? true
-									: false
-							}
-						>
-							<FormLabel>SKU</FormLabel>
-							<Input
-								type='text'
-								value={formik.values.sku}
-								onChange={formik.handleChange}
-							/>
-							<FormErrorMessage>
-								{formik.touched.sku && formik.errors.sku}
-							</FormErrorMessage>
-						</FormControl>
-
-						<FormControl
-							id='barcode'
-							isInvalid={
-								formik.errors.barcode && formik.touched.barcode
-									? true
-									: false
-							}
-						>
-							<FormLabel>Código de barra</FormLabel>
-							<Input
-								type='text'
-								value={formik.values.barcode}
-								onChange={formik.handleChange}
-							/>
-							<FormErrorMessage>
-								{formik.touched.barcode &&
-									formik.errors.barcode}
-							</FormErrorMessage>
-						</FormControl>
-
-						<FormControl
-							id='special_payment_method'
-							isInvalid={
-								formik.errors.special_payment_method &&
-								formik.touched.special_payment_method
-									? true
-									: false
-							}
-						>
-							<FormLabel>Método de pago especial</FormLabel>
-							<Select
-								placeholder='Seleccione un método de pago'
-								value={formik.values.special_payment_method}
-								onChange={formik.handleChange}
+							<FormControl
+								id='category_id'
+								isInvalid={
+									formik.errors.category_id &&
+									formik.touched.category_id
+										? true
+										: false
+								}
 							>
-								{specialPaymentMethods.map(
-									(paymentMethod: IOptions) => (
+								<FormLabel>Categoría</FormLabel>
+
+								<Select
+									placeholder='Seleccione una categoría'
+									value={formik.values.category_id}
+									onChange={formik.handleChange}
+								>
+									{categories.map((category: IOptions) => (
 										<option
-											value={paymentMethod.id}
-											key={paymentMethod.id}
+											value={category.id}
+											key={category.id}
 										>
-											{paymentMethod.name}
+											{category.name}
 										</option>
-									)
-								)}
-							</Select>
-							<FormErrorMessage>
-								{formik.touched.special_payment_method &&
-									formik.errors.special_payment_method}
-							</FormErrorMessage>
-						</FormControl>
+									))}
+								</Select>
+								<FormErrorMessage>
+									{formik.touched.category_id &&
+										formik.errors.category_id}
+								</FormErrorMessage>
+							</FormControl>
 
-						<FormControl
-							id='condition'
-							isInvalid={
-								formik.errors.condition &&
-								formik.touched.condition
-									? true
-									: false
-							}
-						>
-							<FormLabel>Condición</FormLabel>
-							<Select
-								placeholder='Seleccione una condición'
-								value={formik.values.condition}
-								onChange={formik.handleChange}
+							<FormControl
+								id='sku'
+								isInvalid={
+									formik.errors.sku && formik.touched.sku
+										? true
+										: false
+								}
 							>
-								{conditions.map((condition: IOptions) => (
-									<option
-										value={condition.id}
-										key={condition.id}
-									>
-										{condition.name}
-									</option>
-								))}
-							</Select>
-							<FormErrorMessage>
-								{formik.touched.condition &&
-									formik.errors.condition}
-							</FormErrorMessage>
-						</FormControl>
+								<FormLabel>SKU</FormLabel>
+								<Input
+									type='text'
+									value={formik.values.sku}
+									onChange={formik.handleChange}
+								/>
+								<FormErrorMessage>
+									{formik.touched.sku && formik.errors.sku}
+								</FormErrorMessage>
+							</FormControl>
 
-						<FormControl
-							id='currency'
-							isInvalid={
-								formik.errors.currency &&
-								formik.touched.currency
-									? true
-									: false
-							}
-						>
-							<FormLabel>Moneda</FormLabel>
-							<Select
-								placeholder='Seleccione una moneda'
-								value={formik.values.category_id}
-								onChange={formik.handleChange}
+							<FormControl
+								id='barcode'
+								isInvalid={
+									formik.errors.barcode &&
+									formik.touched.barcode
+										? true
+										: false
+								}
 							>
-								{currencies.map((currency: IOptions) => (
-									<option
-										value={currency.id}
-										key={currency.id}
-									>
-										{currency.name}
-									</option>
-								))}
-							</Select>
-							<FormErrorMessage>
-								{formik.touched.currency &&
-									formik.errors.currency}
-							</FormErrorMessage>
-						</FormControl>
+								<FormLabel>Código de barra</FormLabel>
+								<Input
+									type='text'
+									value={formik.values.barcode}
+									onChange={formik.handleChange}
+								/>
+								<FormErrorMessage>
+									{formik.touched.barcode &&
+										formik.errors.barcode}
+								</FormErrorMessage>
+							</FormControl>
 
-						<FormControl
-							id='packing_quantity'
-							isInvalid={
-								formik.errors.packing_quantity &&
-								formik.touched.packing_quantity
-									? true
-									: false
-							}
-						>
-							<FormLabel>Cantidad de empaque</FormLabel>
-							<Input
-								type='text'
-								value={formik.values.packing_quantity}
-								onChange={formik.handleChange}
-							/>
-							<FormErrorMessage>
-								{formik.touched.packing_quantity &&
-									formik.errors.packing_quantity}
-							</FormErrorMessage>
-						</FormControl>
+							<FormControl
+								id='special_payment_method'
+								isInvalid={
+									formik.errors.special_payment_method &&
+									formik.touched.special_payment_method
+										? true
+										: false
+								}
+							>
+								<FormLabel>Método de pago especial</FormLabel>
+								<Select
+									placeholder='Seleccione un método de pago'
+									value={formik.values.special_payment_method}
+									onChange={formik.handleChange}
+								>
+									{specialPaymentMethods.map(
+										(paymentMethod: IOptions) => (
+											<option
+												value={paymentMethod.id}
+												key={paymentMethod.id}
+											>
+												{paymentMethod.name}
+											</option>
+										)
+									)}
+								</Select>
+								<FormErrorMessage>
+									{formik.touched.special_payment_method &&
+										formik.errors.special_payment_method}
+								</FormErrorMessage>
+							</FormControl>
 
-						<FormControl
-							id='quantity_available'
-							isInvalid={
-								formik.errors.quantity_available &&
-								formik.touched.quantity_available
-									? true
-									: false
-							}
-						>
-							<FormLabel>Cantidad disponible</FormLabel>
-							<Input
-								type='text'
-								value={formik.values.quantity_available}
-								onChange={formik.handleChange}
-							/>
-							<FormErrorMessage>
-								{formik.touched.quantity_available &&
-									formik.errors.quantity_available}
-							</FormErrorMessage>
-						</FormControl>
+							<FormControl
+								id='condition'
+								isInvalid={
+									formik.errors.condition &&
+									formik.touched.condition
+										? true
+										: false
+								}
+							>
+								<FormLabel>Condición</FormLabel>
+								<Select
+									placeholder='Seleccione una condición'
+									value={formik.values.condition}
+									onChange={formik.handleChange}
+								>
+									{conditions.map((condition: IOptions) => (
+										<option
+											value={condition.id}
+											key={condition.id}
+										>
+											{condition.name}
+										</option>
+									))}
+								</Select>
+								<FormErrorMessage>
+									{formik.touched.condition &&
+										formik.errors.condition}
+								</FormErrorMessage>
+							</FormControl>
 
-						<FormControl
-							id='bulk_cost'
-							isInvalid={
-								formik.errors.bulk_cost &&
-								formik.touched.bulk_cost
-									? true
-									: false
-							}
-						>
-							<FormLabel>Costo bulto</FormLabel>
-							<Input
-								type='text'
-								value={formik.values.bulk_cost}
-								onChange={formik.handleChange}
-							/>
-							<FormErrorMessage>
-								{formik.touched.bulk_cost &&
-									formik.errors.bulk_cost}
-							</FormErrorMessage>
-						</FormControl>
+							<FormControl
+								id='currency'
+								isInvalid={
+									formik.errors.currency &&
+									formik.touched.currency
+										? true
+										: false
+								}
+							>
+								<FormLabel>Moneda</FormLabel>
+								<Select
+									placeholder='Seleccione una moneda'
+									value={formik.values.category_id}
+									onChange={formik.handleChange}
+								>
+									{currencies.map((currency: IOptions) => (
+										<option
+											value={currency.id}
+											key={currency.id}
+										>
+											{currency.name}
+										</option>
+									))}
+								</Select>
+								<FormErrorMessage>
+									{formik.touched.currency &&
+										formik.errors.currency}
+								</FormErrorMessage>
+							</FormControl>
 
-						{/* <FormControl
+							<FormControl
+								id='packing_quantity'
+								isInvalid={
+									formik.errors.packing_quantity &&
+									formik.touched.packing_quantity
+										? true
+										: false
+								}
+							>
+								<FormLabel>Cantidad de empaque</FormLabel>
+								<Input
+									type='text'
+									value={formik.values.packing_quantity}
+									onChange={formik.handleChange}
+								/>
+								<FormErrorMessage>
+									{formik.touched.packing_quantity &&
+										formik.errors.packing_quantity}
+								</FormErrorMessage>
+							</FormControl>
+
+							<FormControl
+								id='quantity_available'
+								isInvalid={
+									formik.errors.quantity_available &&
+									formik.touched.quantity_available
+										? true
+										: false
+								}
+							>
+								<FormLabel>Cantidad disponible</FormLabel>
+								<Input
+									type='text'
+									value={formik.values.quantity_available}
+									onChange={formik.handleChange}
+								/>
+								<FormErrorMessage>
+									{formik.touched.quantity_available &&
+										formik.errors.quantity_available}
+								</FormErrorMessage>
+							</FormControl>
+
+							<FormControl
+								id='bulk_cost'
+								isInvalid={
+									formik.errors.bulk_cost &&
+									formik.touched.bulk_cost
+										? true
+										: false
+								}
+							>
+								<FormLabel>Costo bulto</FormLabel>
+								<Input
+									type='text'
+									value={formik.values.bulk_cost}
+									onChange={formik.handleChange}
+								/>
+								<FormErrorMessage>
+									{formik.touched.bulk_cost &&
+										formik.errors.bulk_cost}
+								</FormErrorMessage>
+							</FormControl>
+
+							{/* <FormControl
 							id='files'
 							isInvalid={
 								formik.errors.files &&
@@ -491,26 +507,59 @@ const edit = () => {
 							</FormErrorMessage>
 						</FormControl> */}
 
-						<FormControl
-							id='unit_price'
-							isInvalid={
-								formik.errors.unit_price &&
-								formik.touched.unit_price
-									? true
-									: false
-							}
-						>
-							<FormLabel>Precio unitario</FormLabel>
-							<Input
-								type='text'
-								value={formik.values.unit_price}
-								onChange={formik.handleChange}
-							/>
-							<FormErrorMessage>
-								{formik.touched.unit_price &&
-									formik.errors.unit_price}
-							</FormErrorMessage>
-						</FormControl>
+							<FormControl
+								id='unit_price'
+								isInvalid={
+									formik.errors.unit_price &&
+									formik.touched.unit_price
+										? true
+										: false
+								}
+							>
+								<FormLabel>Precio unitario</FormLabel>
+								<Input
+									type='text'
+									value={formik.values.unit_price}
+									onChange={formik.handleChange}
+								/>
+								<FormErrorMessage>
+									{formik.touched.unit_price &&
+										formik.errors.unit_price}
+								</FormErrorMessage>
+							</FormControl>
+
+							<Box
+								bgColor={"brand.400"}
+								rounded='2xl'
+								padding={"1rem"}
+								marginTop={"-1rem"}
+								marginRight={"-1rem"}
+							>
+								<FormControl
+									id='unit_price'
+									isInvalid={
+										formik.errors.unit_price &&
+										formik.touched.unit_price
+											? true
+											: false
+									}
+								>
+									<FormLabel textColor={"white"}>
+										Precio sugerido
+									</FormLabel>
+									<Input
+										bgColor={"white"}
+										type='text'
+										value={formik.values.unit_price}
+										onChange={formik.handleChange}
+									/>
+									<FormErrorMessage>
+										{formik.touched.unit_price &&
+											formik.errors.unit_price}
+									</FormErrorMessage>
+								</FormControl>
+							</Box>
+						</SimpleGrid>
 
 						<Stack direction={"row"} spacing={4} marginTop={4}>
 							<Link href={"/admin/products"}>
