@@ -1,7 +1,10 @@
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
+import { getToken } from "@/services/local-storage.service";
 
-const api = axios;
+import api from "@/lib/api";
+
+const token = getToken();
 
 const mapper = (data: any) => {
 	return data.map((item: any) => {
@@ -32,11 +35,18 @@ export const getStatesOfVenezuela = async (
 	set: Dispatch<SetStateAction<never[]>>
 ) => {
 	try {
-		const response = await api.get(
-			"https://jsonplaceholder.typicode.com/todos"
-		);
+		const response = await api.get("/state", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
-		const data = mapper(response.data);
+		const data = response.data.data.map((item: any) => {
+			return {
+				id: item.id,
+				name: item.state,
+			};
+		});
 
 		set(data);
 	} catch (error) {
@@ -49,10 +59,20 @@ export const getPaymentOptions = async (
 ) => {
 	try {
 		const response = await api.get(
-			"https://jsonplaceholder.typicode.com/todos"
+			"/paymentmethod",
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
 		);
 
-		const data = mapper(response.data);
+		const data = response.data.data.map((item: any) => {
+			return {
+				id: item.id,
+				name: item.payment_method,
+			};
+		});
 
 		set(data);
 	} catch (error) {
@@ -64,11 +84,18 @@ export const getBankOptions = async (
 	set: Dispatch<SetStateAction<never[]>>
 ) => {
 	try {
-		const response = await api.get(
-			"https://jsonplaceholder.typicode.com/todos"
-		);
+		const response = await api.get("/bank", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
-		const data = mapper(response.data);
+		const data = response.data.data.map((item: any) => {
+			return {
+				id: item.id,
+				name: item.bank,
+			};
+		});
 
 		set(data);
 	} catch (error) {
@@ -80,11 +107,18 @@ export const getCurrencyOptions = async (
 	set: Dispatch<SetStateAction<never[]>>
 ) => {
 	try {
-		const response = await api.get(
-			"https://jsonplaceholder.typicode.com/todos"
-		);
+		const response = await api.get("/coin", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
-		const data = mapper(response.data);
+		const data = response.data.data.map((item: any) => {
+			return {
+				id: item.id,
+				name: item.coin,
+			};
+		});
 
 		set(data);
 	} catch (error) {
@@ -97,10 +131,20 @@ export const getPaymentMethodOptions = async (
 ) => {
 	try {
 		const response = await api.get(
-			"https://jsonplaceholder.typicode.com/todos"
+			"/paymentmethod",
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
 		);
 
-		const data = mapper(response.data);
+		const data = response.data.data.map((item: any) => {
+			return {
+				id: item.id,
+				name: item.payment_method,
+			};
+		});
 
 		set(data);
 	} catch (error) {
@@ -139,15 +183,26 @@ export const getCategoryOptions = async (
 		console.error(error);
 	}
 };
+
 export const getSpecialPaymentMethodsOptions = async (
 	set: Dispatch<SetStateAction<never[]>>
 ) => {
 	try {
 		const response = await api.get(
-			"https://jsonplaceholder.typicode.com/todos"
+			"/specialformofpayment",
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
 		);
 
-		const data = mapper(response.data);
+		const data = response.data.data.map((item: any) => {
+			return {
+				id: item.id,
+				name: item.form_of_payment,
+			};
+		});
 
 		set(data);
 	} catch (error) {
@@ -158,11 +213,18 @@ export const getConditionsOptions = async (
 	set: Dispatch<SetStateAction<never[]>>
 ) => {
 	try {
-		const response = await api.get(
-			"https://jsonplaceholder.typicode.com/todos"
-		);
+		const response = await api.get("/condition", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
-		const data = mapper(response.data);
+		const data = response.data.data.map((item: any) => {
+			return {
+				id: item.id,
+				name: item.condition,
+			};
+		});
 
 		set(data);
 	} catch (error) {

@@ -35,6 +35,13 @@ import { IProducts } from "@/interfaces/product.interface";
 import { HttpStatusCode } from "@/app/common/enums/httpStatusCode";
 import { IOptions } from "@/interfaces/options.interface";
 
+import {
+	getCategoryOptions,
+	getSpecialPaymentMethodsOptions,
+	getConditionsOptions,
+	getCurrencyOptions,
+} from "@/services/options.service";
+
 const edit = () => {
 	const { user } = useAuth({ middleware: "auth" });
 	const router = useRouter();

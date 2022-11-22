@@ -11,6 +11,16 @@ const nextConfig = {
 	typescript: {
 		ignoreBuildErrors: true,
 	},
+	redirects: async () => {
+		return [
+			{
+				// Redirect all requests to the pre-registration path to the step 1
+				source: "/pre-registration",
+				destination: "/pre-registration/step-1",
+				permanent: true,
+			},
+		];
+	},
 };
 
 module.exports = nextConfig;

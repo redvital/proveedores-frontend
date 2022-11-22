@@ -140,13 +140,6 @@ const login = () => {
 												Por favor verifique sus datos
 											</AlertDescription>
 										</Box>
-										{/* <CloseButton
-									  alignSelf='flex-start'
-									  position='relative'
-									  right={-1}
-									  top={-1}
-									  onClick={onClose}
-									/> */}
 									</Alert>
 								)}
 
