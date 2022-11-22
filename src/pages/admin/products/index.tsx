@@ -35,10 +35,10 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link } from "@chakra-ui/react";
 import { IProducts } from "@/interfaces/product.interface";
-import { getProducts } from "@/services/products.service"
+import { getProducts } from "@/services/products.service";
+import PaginationTable from "@/components/PaginationTable";
 
 const index = () => {
-
 	const [products, setProducts] = useState<IProducts[]>([]);
 
 	const getData = async () => {
@@ -48,6 +48,27 @@ const index = () => {
 	useEffect(() => {
 		getData();
 	}, []);
+
+	const uri = `/supplier/1/products`;
+
+	const columns = [
+		"#",
+		"Nombre",
+		"SKU",
+		"Precio unitario",
+		"Precio por paquete",
+		"Modificado",
+		"Acciones",
+	];
+
+	const columnsTable = [
+		"id",
+		"name",
+		"sku_provider",
+		"cost_per_unit",
+		"cost_per_package",
+		"updated_at",
+	];
 
 	return (
 		<>
@@ -114,95 +135,16 @@ const index = () => {
 					boxShadow={"lg"}
 					p={8}
 				>
-					<TableContainer>
-						<Table variant='simple'>
-							<TableCaption>Lista de productos</TableCaption>
-							<Thead>
-								<Tr>
-									<Th>#</Th>
-
-									<Th>Nombre</Th>
-									<Th>SKU</Th>
-									<Th isNumeric>Precio unitario</Th>
-									<Th isNumeric>Precio</Th>
-									<Th>Modificado</Th>
-									<Th>Estado</Th>
-									<Th>Acciones</Th>
-								</Tr>
-							</Thead>
-							<Tbody>
-								{products.map(
-									({
-										id,
-										name,
-										sku_provider,
-										cost_per_unit,
-										cost_per_package,
-										updated_at,
-										status,
-									}) => (
-										<Tr key={id}>
-											<Td>{id}</Td>
-											<Td>{name}</Td>
-											<Td>{sku_provider}</Td>
-											<Td isNumeric>{cost_per_unit}</Td>
-											<Td isNumeric>
-												{cost_per_package}
-											</Td>
-											<Td>{ String(updated_at)}</Td>
-											<Td>
-												<Badge
-													colorScheme={
-														status == "Aprobado"
-															? "green"
-															: "red"
-													}
-												>
-													{status}
-												</Badge>
-											</Td>
-
-											<Td>
-												<Stack
-													direction='row'
-													spacing={4}
-												>
-													<Link
-														href={`/admin/products/${id}`}
-													>
-														<Button
-															leftIcon={
-																<ViewIcon />
-															}
-															colorScheme='blue'
-															variant='ghost'
-														>
-															Ver
-														</Button>
-													</Link>
-
-													<Link
-														href={`/admin/products/edit/${id}`}
-													>
-														<Button
-															leftIcon={
-																<EditIcon />
-															}
-															colorScheme='blue'
-															variant='ghost'
-														>
-															Editar
-														</Button>
-													</Link>
-												</Stack>
-											</Td>
-										</Tr>
-									)
-								)}
-							</Tbody>
-							<Tfoot></Tfoot>
-						</Table>
-					</TableContainer>
+					<Stack>
+						<PaginationTable
+							uri={uri}
+							columns={columns}
+							columnsTable={columnsTable}
+							titleTable='Lista de productos'
+							pathView='products'
+							pathEdit='products/edit'
+						/>
+					</Stack>
 				</Box>
 			</Box>
 		</>

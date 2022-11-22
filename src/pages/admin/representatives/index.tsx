@@ -38,27 +38,17 @@ import { Link } from "@chakra-ui/react";
 import api from "@/lib/api";
 import { getToken } from "@/services/local-storage.service";
 import { IRepresentative } from "@/interfaces/representative.interface";
+import PaginationTable from "@/components/PaginationTable";
 
 const index = () => {
 	const { user } = useAuth({ middleware: "auth" });
 	const token = getToken();
 
-	const [representatives, setRepresentatives] = useState<IRepresentative[]>(
-		[]
-	);
-	const getData = async () => {
-		const { data } = await api.get("representative", {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
+	const uri = `/representative`;
 
-		setRepresentatives(data.data);
-	};
+	const columns = ["#", "Nombre", "RIF", "Acciones"];
 
-	useEffect(() => {
-		getData();
-	}, []);
+	const columnsTable = ["id", "commercial_register", "rif"];
 
 	return (
 		<>
@@ -115,65 +105,16 @@ const index = () => {
 					boxShadow={"lg"}
 					p={8}
 				>
-					<TableContainer>
-						<Table variant='simple'>
-							<TableCaption>Lista de Representantes</TableCaption>
-							<Thead>
-								<Tr>
-									<Th>#</Th>
-									<Th>Nombre</Th>
-									<Th>RIF</Th>
-									<Th>Acciones</Th>
-								</Tr>
-							</Thead>
-							<Tbody>
-								{representatives.map(
-									({ id, commercial_register, rif }) => (
-										<Tr>
-											<Td>{id}</Td>
-											<Td>{commercial_register}</Td>
-											<Td>{rif}</Td>
-											<Td>
-												<Stack
-													direction='row'
-													spacing={4}
-												>
-													<Link
-														href={`/admin/representatives/${id}`}
-													>
-														<Button
-															leftIcon={
-																<ViewIcon />
-															}
-															colorScheme='blue'
-															variant='ghost'
-														>
-															Ver
-														</Button>
-													</Link>
-
-													<Link
-														href={`/admin/representatives/edit/${id}`}
-													>
-														<Button
-															leftIcon={
-																<EditIcon />
-															}
-															colorScheme='blue'
-															variant='ghost'
-														>
-															Editar
-														</Button>
-													</Link>
-												</Stack>
-											</Td>
-										</Tr>
-									)
-								)}
-							</Tbody>
-							<Tfoot></Tfoot>
-						</Table>
-					</TableContainer>
+					<Stack>
+						<PaginationTable
+							uri={uri}
+							columns={columns}
+							columnsTable={columnsTable}
+							titleTable='Lista de representantes'
+							pathView='representatives'
+							pathEdit='representatives/edit'
+						/>
+					</Stack>
 				</Box>
 			</Box>
 		</>

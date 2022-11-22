@@ -38,25 +38,23 @@ import { Link } from "@chakra-ui/react";
 import api from "@/lib/api";
 import { getToken } from "@/services/local-storage.service";
 import { IStore } from "@/interfaces/store.interface";
+import PaginationTable from "@/components/PaginationTable";
 
 const index = () => {
 	const { user } = useAuth({ middleware: "auth" });
-	const token = getToken();
 
-	const [stores, setStores] = useState<IStore[]>([]);
-	const getData = async () => {
-		const { data } = await api.get("store", {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
+	const uri = `/store`;
 
-		setStores(data.data);
-	};
+	const columns = [
+		"#",
+		"Nombre",
+		"Descripción",
+		"Ubicación",
+		"Código",
+		"Acciones",
+	];
 
-	useEffect(() => {
-		getData();
-	}, []);
+	const columnsTable = ["id", "name", "description", "location", "code"];
 
 	return (
 		<>
@@ -113,61 +111,16 @@ const index = () => {
 					boxShadow={"lg"}
 					p={8}
 				>
-					<TableContainer>
-						<Table variant='simple'>
-							<TableCaption>Lista de Tiendas</TableCaption>
-							<Thead>
-								<Tr>
-									<Th>#</Th>
-
-									<Th>Nombre</Th>
-									<Th>Descripción</Th>
-									<Th>Ubicación</Th>
-									<Th>Código</Th>
-									<Th>Acciones</Th>
-								</Tr>
-							</Thead>
-							<Tbody>
-								{stores.map(({ id, name, description, location, code }) => (
-									<Tr key={id}>
-										<Td>{id}</Td>
-										<Td>{name}</Td>
-										<Td>{description}</Td>
-										<Td>{location}</Td>
-										<Td isNumeric>{code}</Td>
-										<Td>
-											<Stack direction='row' spacing={4}>
-												<Link
-													href={`/admin/stores/${id}`}
-												>
-													<Button
-														leftIcon={<ViewIcon />}
-														colorScheme='blue'
-														variant='ghost'
-													>
-														Ver
-													</Button>
-												</Link>
-
-												<Link
-													href={`/admin/stores/edit/${id}`}
-												>
-													<Button
-														leftIcon={<EditIcon />}
-														colorScheme='blue'
-														variant='ghost'
-													>
-														Editar
-													</Button>
-												</Link>
-											</Stack>
-										</Td>
-									</Tr>
-								))}
-							</Tbody>
-							<Tfoot></Tfoot>
-						</Table>
-					</TableContainer>
+					<Stack>
+						<PaginationTable
+							uri={uri}
+							columns={columns}
+							columnsTable={columnsTable}
+							titleTable='Lista de tiendas'
+							pathView='stores'
+							pathEdit='stores/edit'
+						/>
+					</Stack>
 				</Box>
 			</Box>
 		</>
