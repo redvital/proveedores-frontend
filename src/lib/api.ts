@@ -9,7 +9,7 @@ const api = Axios.create({
 	},
 });
 
-console.log(process.env.API_URL);
-console.log(process.env.NODE_ENV);
+// console.log(process.env.API_URL);
+// console.log(process.env.NODE_ENV);
 
 export default api;
