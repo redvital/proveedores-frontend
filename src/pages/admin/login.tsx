@@ -4,30 +4,24 @@ import {
 	FormControl,
 	FormLabel,
 	Input,
-	Checkbox,
 	Stack,
 	Link,
 	Button,
 	Heading,
-	useColorModeValue,
 	FormErrorMessage,
 	Alert,
 	AlertIcon,
 	AlertTitle,
 	AlertDescription,
-	CloseButton,
 	Image,
-	Text,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import * as Yup from "yup";
 import Logo from "@/components/Logo";
 import { useAuth } from "@/hooks/auth";
 
 const login = () => {
-	const router = useRouter();
 	const [errors, setErrors] = useState([]);
 
 	const { login, mutate } = useAuth({ middleware: "guest" });
