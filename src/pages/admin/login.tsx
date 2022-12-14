@@ -14,6 +14,7 @@ import {
 	AlertTitle,
 	AlertDescription,
 	Image,
+	useToast,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -25,6 +26,8 @@ const login = () => {
 	const [errors, setErrors] = useState([]);
 
 	const { login, mutate } = useAuth({ middleware: "guest" });
+
+	const toast = useToast();
 
 	const formik = useFormik({
 		initialValues: {
@@ -43,9 +46,13 @@ const login = () => {
 			try {
 				if (!formik.isValid) return;
 				await login(setErrors, { email, password });
-				await mutate();
 			} catch (error) {
 				console.error("error ;", error);
+
+				toast({
+					title: `Error: ${error}`,
+					status: "error",
+				});
 			}
 		},
 	});
@@ -85,7 +92,7 @@ const login = () => {
 						// boxShadow={"lg"}
 						p={8}
 					>
-						<form onSubmit={formik.handleSubmit}>
+						<form onSubmit={formik.handleSubmit} autoComplete={"false"}>
 							<Stack spacing={4}>
 								<FormControl
 									id='email'
@@ -142,23 +149,10 @@ const login = () => {
 											Olvido su contraseña?
 										</Link>
 
-										<Link color={"brand.400"}>
+										<Link color={"brand.400"} href="/admin/register">
 											Deseas registrarse?
 										</Link>
 									</Stack>
-
-									{errors ?? (
-										<Alert status='error'>
-											<AlertIcon />
-											<Box>
-												<AlertTitle>Error!</AlertTitle>
-												<AlertDescription>
-													Por favor verifique sus
-													datos
-												</AlertDescription>
-											</Box>
-										</Alert>
-									)}
 
 									<Button
 										bg={"brand.400"}

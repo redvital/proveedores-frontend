@@ -19,11 +19,18 @@ export const getTypeProviders = async (
 	set: Dispatch<SetStateAction<never[]>>
 ) => {
 	try {
-		const response = await api.get(
-			"https://jsonplaceholder.typicode.com/todos"
-		);
+		const response = await api.get("/providertype/ddlist", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
-		const data = mapper(response.data);
+		const data = response.data.data.map((item: any) => {
+			return {
+				id: item.value,
+				name: item.label,
+			};
+		});
 
 		set(data);
 	} catch (error) {
@@ -58,14 +65,11 @@ export const getPaymentOptions = async (
 	set: Dispatch<SetStateAction<never[]>>
 ) => {
 	try {
-		const response = await api.get(
-			"/paymentmethod",
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			}
-		);
+		const response = await api.get("/paymentmethod", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
 		const data = response.data.data.map((item: any) => {
 			return {
@@ -130,14 +134,11 @@ export const getPaymentMethodOptions = async (
 	set: Dispatch<SetStateAction<never[]>>
 ) => {
 	try {
-		const response = await api.get(
-			"/paymentmethod",
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			}
-		);
+		const response = await api.get("/paymentmethod", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
 		const data = response.data.data.map((item: any) => {
 			return {
@@ -173,11 +174,19 @@ export const getCategoryOptions = async (
 ) => {
 	try {
 		const response = await api.get(
-			"https://jsonplaceholder.typicode.com/todos"
+			"/category",{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				}
+			}
 		);
 
-		const data = mapper(response.data);
-
+		const data = response.data.data.map((item: any) => {
+			return {
+				id: item.id,
+				name: item.name,
+			};
+		});
 		set(data);
 	} catch (error) {
 		console.error(error);
@@ -188,14 +197,11 @@ export const getSpecialPaymentMethodsOptions = async (
 	set: Dispatch<SetStateAction<never[]>>
 ) => {
 	try {
-		const response = await api.get(
-			"/specialformofpayment",
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			}
-		);
+		const response = await api.get("/specialformofpayment", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
 		const data = response.data.data.map((item: any) => {
 			return {

@@ -127,7 +127,7 @@ const PasswordRecovery = () => {
 							align={"start"}
 							justify={"space-between"}
 						>
-							<Link color={"brand.400"}>Deseas registrarse?</Link>
+							<Link href="/admin/register" color={"brand.400"}>Deseas registrarse?</Link>
 						</Stack>
 					</Stack>
 				</Flex>
