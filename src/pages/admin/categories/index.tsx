@@ -1,62 +1,29 @@
 import { useAuth } from "@/hooks/auth";
-import {
-	ChevronRightIcon,
-	ViewIcon,
-	CopyIcon,
-	EditIcon,
-} from "@chakra-ui/icons";
+import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
 	BreadcrumbLink,
 	Button,
 	Flex,
-	Grid,
-	GridItem,
 	Input,
 	InputGroup,
 	InputRightElement,
 	useColorModeValue,
 	Text,
-	Square,
 	Box,
-	HStack,
-	Stack,
-	TableContainer,
-	Table,
-	TableCaption,
-	Thead,
-	Tr,
-	Th,
-	Tbody,
-	Td,
-	Tfoot,
-	Badge,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "@chakra-ui/react";
-import api from "@/lib/api";
-import { getToken } from "@/services/local-storage.service";
-import { ICategory } from "@/interfaces/categories.interface";
+import PaginationTable from "@/components/PaginationTable";
 
 const index = () => {
 	const { user } = useAuth({ middleware: "auth" });
-	const token = getToken();
 
-	const [categories, setCategories] = useState<ICategory[]>([]);
-	const getData = async () => {
-		const { data } = await api.get("category", {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
+	const uri = `/category`;
+	const columns = ["#", "Nombre", "Categoría", "Acciones"];
 
-		setCategories(data.data);
-	};
-
-	useEffect(() => {
-		getData();
-	}, []);
+	const columnsTable = ["id", "name", "description"];
 
 	return (
 		<>
@@ -113,57 +80,14 @@ const index = () => {
 					boxShadow={"lg"}
 					p={8}
 				>
-					<TableContainer>
-						<Table variant='simple'>
-							<TableCaption>Lista de Categorías</TableCaption>
-							<Thead>
-								<Tr>
-									<Th>#</Th>
-
-									<Th>Nombre</Th>
-									<Th>Categoría</Th>
-									<Th>Acciones</Th>
-								</Tr>
-							</Thead>
-							<Tbody>
-								{categories.map(({ id, name, description }) => (
-									<Tr key={id}>
-										<Td>{id}</Td>
-										<Td>{name}</Td>
-										<Td>{description}</Td>
-										<Td>
-											<Stack direction='row' spacing={4}>
-												<Link
-													href={`/admin/categories/${id}`}
-												>
-													<Button
-														leftIcon={<ViewIcon />}
-														colorScheme='blue'
-														variant='ghost'
-													>
-														Ver
-													</Button>
-												</Link>
-
-												<Link
-													href={`/admin/categories/edit/${id}`}
-												>
-													<Button
-														leftIcon={<EditIcon />}
-														colorScheme='blue'
-														variant='ghost'
-													>
-														Editar
-													</Button>
-												</Link>
-											</Stack>
-										</Td>
-									</Tr>
-								))}
-							</Tbody>
-							<Tfoot></Tfoot>
-						</Table>
-					</TableContainer>
+					<PaginationTable
+						uri={uri}
+						columns={columns}
+						columnsTable={columnsTable}
+						titleTable='Lista de categorías'
+						pathView='categories'
+						pathEdit='categories/edit'
+					/>
 				</Box>
 			</Box>
 		</>

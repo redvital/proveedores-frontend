@@ -11,30 +11,40 @@ import {
 } from "@/services/local-storage.service";
 import { IUser } from "@/interfaces/user.interface";
 
-export const useAuth = ({ middleware } = {}) => {
+export const useAuth = ({ middleware }) => {
 	const router = useRouter();
-	const [token, addToken] = useState(null);
+	const [token, addToken] = useState<undefined|string>(undefined);
 
 	const [loading, setLoading] = useState<boolean>(true);
+
+	const accessToken = token ?? getToken();
 
 	const {
 		data: user,
 		error,
 		mutate,
 	} = useSWR<IUser>("/auth/me", () =>
-		api
+		{
+			if(!accessToken) return null;
+
+			return api
 			.get("/me", {
 				headers: {
-					Authorization: `Bearer ${getToken()}`,
+					Authorization: `Bearer ${accessToken}`,
 				},
 			})
-			.then((res) => res.data)
+			.then((res) => {
+				return res.data[0];
+			})
 			.catch((error) => {
 				console.error("Error authMe  :", error);
+
+				removeToken();
 
 				if (error.response.status != 409) throw error;
 				router.push("/verify-email");
 			})
+		}
 	);
 
 	const login = async (setErrors: any, dataSend: any) => {
@@ -45,11 +55,10 @@ export const useAuth = ({ middleware } = {}) => {
 				addToken(resp.data.access_token);
 
 				setToken(resp.data.access_token);
-				console.log("login success", resp.data);
 
-				mutate();
 				router.push("/admin/dashboard");
 			})
+			// .then(() => mutate)
 			.catch((error) => {
 				setErrors(error.errors);
 				// if (error.response.status != 422) throw error;
@@ -59,7 +68,7 @@ export const useAuth = ({ middleware } = {}) => {
 
 	const logout = async () => {
 		// api.post(
-		// 	"/auth/logout",
+		// 	"/logout",
 		// 	{},
 		// 	{
 		// 		headers: {
@@ -67,11 +76,10 @@ export const useAuth = ({ middleware } = {}) => {
 		// 		},
 		// 	}
 		// ).then(() => {
-			mutate(null);
-			// setUser(null);
-			removeToken();
-			router.push("/admin/login");
-		// });
+		mutate(null);
+		removeToken();
+		router.push("/admin/login");
+		// })
 		// .catch((error) => {
 		// 	console.error("Error logout :", error);
 		// 	router.push("/admin/login");
@@ -80,14 +88,11 @@ export const useAuth = ({ middleware } = {}) => {
 
 	useEffect(() => {
 		if (user || error) {
-			console.log("useEffect user", user, error);
-
 			setLoading(false);
 		}
 
-			if (middleware === "guest" && user) return
-			if (middleware === "auth" && error) router.push("/admin/login");
-
+		if (middleware === "guest" && user) return;
+		if (middleware === "auth" && error) router.push("/admin/login");
 	}, [user, error, token]);
 
 	return {

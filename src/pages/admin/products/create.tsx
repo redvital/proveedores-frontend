@@ -190,7 +190,7 @@ const create = () => {
 								onChange={formik.handleChange}
 							>
 								{categories.map((category: IOptions) => (
-									<option value={category.id}>
+									<option value={category.id} key={category.id}>
 										{category.name}
 									</option>
 								))}
@@ -257,7 +257,7 @@ const create = () => {
 							>
 								{specialPaymentMethods.map(
 									(paymentMethod: IOptions) => (
-										<option value={paymentMethod.id}>
+										<option value={paymentMethod.id} key={paymentMethod.id}>
 											{paymentMethod.name}
 										</option>
 									)
@@ -285,7 +285,7 @@ const create = () => {
 								onChange={formik.handleChange}
 							>
 								{conditions.map((condition: IOptions) => (
-									<option value={condition.id}>
+									<option value={condition.id} key={condition.id}>
 										{condition.name}
 									</option>
 								))}
@@ -312,7 +312,7 @@ const create = () => {
 								onChange={formik.handleChange}
 							>
 								{currencies.map((currency: IOptions) => (
-									<option value={currency.id}>
+									<option value={currency.id} key={currency.id}>
 										{currency.name}
 									</option>
 								))}
