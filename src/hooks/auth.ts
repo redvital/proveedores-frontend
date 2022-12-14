@@ -34,10 +34,8 @@ export const useAuth = ({ middleware }) => {
 				},
 			})
 			.then((res) => {
-				if (res.data[0]) {
-					setUserStorage(res.data[0]);
-					return res.data[0];
-				}
+					setUserStorage(res.data);
+					return res.data;
 			})
 			.catch((error) => {
 				console.error("Error authMe  :", error);
