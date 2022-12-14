@@ -23,3 +23,7 @@ export const getUserStorage = (): IUser | null => {
 	const user = localStorage.getItem("user");
 	return user ? JSON.parse(JSON.stringify(user)) : null;
 };
+
+export const removeUser = () => {
+	localStorage.removeItem("user");
+}

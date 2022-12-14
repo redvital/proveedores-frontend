@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import {
 	getToken,
 	getUserStorage,
+	removeUser,
 	removeToken,
 	setToken,
 	setUserStorage,
@@ -13,7 +14,7 @@ import { IUser } from "@/interfaces/user.interface";
 
 export const useAuth = ({ middleware }) => {
 	const router = useRouter();
-	const [token, addToken] = useState<undefined|string>(undefined);
+	const [token, addToken] = useState<undefined | string>(undefined);
 
 	const [loading, setLoading] = useState<boolean>(true);
 
@@ -23,18 +24,20 @@ export const useAuth = ({ middleware }) => {
 		data: user,
 		error,
 		mutate,
-	} = useSWR<IUser>("/auth/me", () =>
-		{
-			if(!accessToken) return null;
+	} = useSWR<IUser>("/auth/me", () => {
+		if (!accessToken) return null;
 
-			return api
+		return api
 			.get("/me", {
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
 				},
 			})
 			.then((res) => {
-				return res.data[0];
+				if (res.data[0]) {
+					setUserStorage(res.data[0]);
+					return res.data[0];
+				}
 			})
 			.catch((error) => {
 				console.error("Error authMe  :", error);
@@ -43,9 +46,8 @@ export const useAuth = ({ middleware }) => {
 
 				if (error.response.status != 409) throw error;
 				router.push("/verify-email");
-			})
-		}
-	);
+			});
+	});
 
 	const login = async (setErrors: any, dataSend: any) => {
 		setErrors([]);
@@ -58,7 +60,7 @@ export const useAuth = ({ middleware }) => {
 
 				router.push("/admin/dashboard");
 			})
-			// .then(() => mutate)
+			.then(() => mutate)
 			.catch((error) => {
 				setErrors(error.errors);
 				// if (error.response.status != 422) throw error;
@@ -76,8 +78,9 @@ export const useAuth = ({ middleware }) => {
 		// 		},
 		// 	}
 		// ).then(() => {
-		mutate(null);
+		removeUser();
 		removeToken();
+		mutate(null);
 		router.push("/admin/login");
 		// })
 		// .catch((error) => {
