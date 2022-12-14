@@ -47,6 +47,7 @@ const index = () => {
 
 	const columns = [
 		"#",
+		"Nombre",
 		"Correo",
 		"Teléfono",
 		"Empresa",

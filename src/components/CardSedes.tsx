@@ -17,7 +17,7 @@ interface Props {
 
 export const CardSedes: NextPage<Props> = ({ sede }) => {
 	return (
-		<Link>
+		<Link  href={`/admin/inventories/stock/${sede.id}`}>
 			<Center py={12}>
 				<Box
 					role={"group"}
@@ -58,7 +58,7 @@ export const CardSedes: NextPage<Props> = ({ sede }) => {
 							height={100}
 							width={400}
 							objectFit={"contain"}
-							src={"/images/store-01.png"}
+							src={"/images/store-02.svg"}
 						/>
 					</Box>
 					<Stack pt={10} align={"center"}>

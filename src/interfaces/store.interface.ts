@@ -1,9 +1,9 @@
 export interface IStore {
-	name: string;
-	description: string;
-	location: string;
-	code: string;
-	updated_at: Date;
-	created_at: Date;
 	id: number;
+	name: string;
+	location: string;
+	description: string;
+	code: string;
+	created_at: Date;
+	updated_at: Date;
 }
