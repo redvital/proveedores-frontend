@@ -50,7 +50,7 @@ const index = () => {
 		"Cantidad Disponible",
 		"Precio de Venta",
 		"Condicion",
-        "SKU Proider"
+        "SKU Provider"
 	];
 
 	const columnsTable = [
@@ -101,7 +101,7 @@ return (
                                     <Text fontSize='sm' as='b'>Proveedor :&nbsp; </Text> 
                                     <Text fontSize='sm'>Super Drogeria</Text>
                                 </Flex>
-                                <Flex mt={2}>
+                                <Flex mt={2} mb={3}>
                                     <Text fontSize='sm' as='b'>Ultimo Despacho : &nbsp;</Text>
                                     <Text fontSize='sm'>24/Jul/2022</Text>
                                 </Flex>
@@ -115,40 +115,41 @@ return (
                                         Valencia
                                     </Text>
                                     <br/>
-                                    <Button
-                                    h='2.75rem'
-                                    size='lg'
-                                    color='white'
-                                    mt={8}
-                                >
-                                    Generar Cotización
-                                </Button>
+                                  {/* <Button
+                                        h='2.75rem'
+                                        size='lg'
+                                        color='white'
+                                        mt={8}
+                                        >
+                                        Generar Cotización
+                                      </Button> */    }
                             </Container> 
                             <Container my={5}>
-                                <Flex>
+                              {/*  <Flex>
                                     <Text fontSize='sm' as='b'>Gerente de Tienda:&nbsp; </Text> 
                                     <Text fontSize='sm'>Carlos Perez</Text>
-                                </Flex>
+                               </Flex> 
                                 <Flex>
                                     <Text fontSize='sm' as='b' >Telefono: &nbsp;</Text> 
                                     <Text fontSize='sm'>(0241)-555.55.55</Text>
+                                </Flex> 
+                                <Flex>
+                                    <Text fontSize='sm' as='b' >Correo: &nbsp;</Text> 
+                                    <Text fontSize='sm'>compras-valencia@gmail.com</Text>
                                 </Flex>
+                                */}
                                 <Text fontSize='sm' as='b'>Direccion:</Text> 
                                 <Text fontSize='sm'> Autopista regional del Centro, 
                                             entre distribuidor Divenca y el distribuidor San Blas, 
                                             sentido Caracas - Valencia, al lado de Makro, Valencia 2001,Carabobo
                                 </Text>
-                                <Flex>
-                                    <Text fontSize='sm' as='b' >Correo: &nbsp;</Text> 
-                                    <Text fontSize='sm'>compras-valencia@gmail.com</Text>
-                                </Flex>
                                    
                             </Container>
 
                     </Flex>
                 </Stat>
 
-                <Flex marginTop={5} w={"100%"} h={10} gap={5} justifyContent='end'>
+                <Flex marginTop={5} w={"100%"} h={10} gap={5} justifyContent='start' ml= {2}>
                         <Breadcrumb
                                 spacing='8px'
                                 separator={<ChevronRightIcon color='gray.500' />}
@@ -160,7 +161,7 @@ return (
                                 </BreadcrumbItem>
                         </Breadcrumb>
 
-                        <InputGroup size='lg' w={"50%"} mr={5}>
+                       { /* <InputGroup size='lg' w={"50%"} mr={5}>
                             <Input type='text' placeholder='Buscar' bg={"white"} />
                             <InputRightElement width='5.5rem'>
                                 <Button
@@ -173,7 +174,7 @@ return (
                                     Buscar
                                 </Button>
                             </InputRightElement>
-                        </InputGroup>
+                            </InputGroup> */    }
 			    </Flex>
 
 			<Box marginTop={4} marginBottom={10} mr={5}>

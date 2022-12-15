@@ -44,8 +44,8 @@ const index = () => {
 				</BreadcrumbItem>
 			</Breadcrumb>
 
-			<Flex marginTop={5} w={"100%"} h={10} gap={5}>
-				<InputGroup size='lg' w={"50%"}>
+			<Flex marginTop={5} w={"100%"} h={10} gap={5} justifyContent="end">
+			{/*	<InputGroup size='lg' w={"50%"}>
 					<Input type='text' placeholder='Buscar' bg={"white"} />
 					<InputRightElement width='5.5rem'>
 						<Button
@@ -58,7 +58,7 @@ const index = () => {
 							Buscar
 						</Button>
 					</InputRightElement>
-				</InputGroup>
+				</InputGroup> */}
 
 				<Link href='/admin/categories/create'>
 					<Button
