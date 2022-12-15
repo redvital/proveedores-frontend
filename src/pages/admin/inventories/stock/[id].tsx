@@ -23,21 +23,25 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import PaginationTable from "@/components/PaginationTable";
 import { getStock } from "@/services/stock.service";
 import { IStock } from "@/interfaces/stock.interface";
+import { string } from "yup";
 
 const index = () => {
     const { user } = useAuth({ middleware: "auth" });
     const router = useRouter();
     const { id } = router.query;
 
+    console.log('capa 1:', id);
+
     const [stock, setStock] = useState <IStock[]> ([]);
 
-	const loadSelects = async () => {
-		await getStock(setStock);
+	const loadSelects = async (store) => {
+        console.log('capa 2:', store);
+		await getStock(store, setStock);
 	};
 
     useEffect(() => {
-		loadSelects();
-	}, []);
+		loadSelects(id);
+	}, [id]);
 
 
     const uri = `/supplier/1/products`;
@@ -50,16 +54,20 @@ const index = () => {
 		"Cantidad Disponible",
 		"Precio de Venta",
 		"Condicion",
-        "SKU Provider"
+        "SKU Provider",
+        "Acciones"
 	];
 
 	const columnsTable = [
 		"id",
 		"name",
-		"sku_provider",
-		"cost_per_unit",
+		"units",
+		"updated_at",
 		"cost_per_package",
 		"updated_at",
+        "updated_at",
+        "updated_at",
+        
 	];
 
 return (

@@ -6,18 +6,14 @@ import api from "@/lib/api";
 
 const token = getToken();
 
-export const getStock = async (
+export const getStock = async ( 
+	id : number,
 	set: Dispatch<SetStateAction<IStock[]>>
 ) => {
-	const { data } = await api.get("store/stock", {
+	const { data } = await api.get(`store/${id}/stock`, {
 		headers: {
 			Authorization: `Bearer ${token}`,
-		},
-        params :{
-            store: 1,
-            supplier_id:2
-        }
+		}
 	});
-
 	set(data.data);
 };
