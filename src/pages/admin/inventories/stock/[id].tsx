@@ -190,8 +190,8 @@ return (
 							columns={columns}
 							columnsTable={columnsTable}
 							titleTable='Listado de Inventario en Tienda'
-							pathView='products'
-							pathEdit='products/edit'
+							pathView='stock'
+							pathEdit='stock'
 						/>
 					</Stack>
 				</Box>
