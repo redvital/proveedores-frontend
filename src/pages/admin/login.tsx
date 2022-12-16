@@ -47,7 +47,7 @@ const login = () => {
 				if (!formik.isValid) return;
 				await login(setErrors, { email, password });
 			} catch (error) {
-				console.error("error ;", error);
+				console.error("error: ", error);
 
 				toast({
 					title: `Error: ${error}`,
