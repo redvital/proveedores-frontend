@@ -107,7 +107,7 @@ const create = () => {
 			try {
 				if (!formik.isValid) return;
 
-				const response = await createProduct(newProduct);
+				const response = await createProduct(newProduct , user);
 
 				if (response.status === HttpStatusCode.Created) {
 					toast({

@@ -4,6 +4,7 @@ import api from "@/lib/api";
 import { getToken } from "@/services/local-storage.service";
 import { IProducts } from "@/interfaces/product.interface";
 import { ICreateProduct } from "@/interfaces/create-product.interface"
+import { IUser } from "@/interfaces/user.interface"
 
 const token = getToken();
 
@@ -19,7 +20,7 @@ export const getProducts = async (
 	set(data.data);
 };
 
-export const createProduct = async (product: ICreateProduct) => {
+export const createProduct = async (product: ICreateProduct, user: IUser) => {
 	const {
 		name,
 		category_id,
@@ -34,8 +35,10 @@ export const createProduct = async (product: ICreateProduct) => {
 		unit_price,
 	} = product;
 
+	const providerId = user.provider_user_me.id
+
 	const response = await api.post(
-		"supplier/1/products",
+		`supplier/${providerId}/products`,
 		{
 			name: name,
 			category: category_id,

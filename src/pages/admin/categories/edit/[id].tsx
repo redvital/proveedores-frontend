@@ -76,7 +76,7 @@ const View = () => {
 			try {
 				if (!formik.isValid) return;
 
-				const response = await api.post(
+				const response = await api.patch(
 					`category/${id}`,
 					{
 						name: name,

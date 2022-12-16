@@ -111,7 +111,7 @@ const edit = () => {
 			try {
 				if (!formik.isValid) return;
 
-				const response = await api.post(
+				const response = await api.patch(
 					`provider/${id}`,
 					{
 						name: name,

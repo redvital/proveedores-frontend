@@ -11,6 +11,8 @@ import {
 	setUserStorage,
 } from "@/services/local-storage.service";
 import { IUser } from "@/interfaces/user.interface";
+import { useToast } from "@chakra-ui/react";
+import { HttpStatusCode } from "../common/enums/httpStatusCode";
 
 export const useAuth = ({ middleware }) => {
 	const router = useRouter();
@@ -19,6 +21,8 @@ export const useAuth = ({ middleware }) => {
 	const [loading, setLoading] = useState<boolean>(true);
 
 	const accessToken = token ?? getToken();
+
+	const toast = useToast();
 
 	const {
 		data: user,
@@ -34,8 +38,8 @@ export const useAuth = ({ middleware }) => {
 				},
 			})
 			.then((res) => {
-					setUserStorage(res.data);
-					return res.data;
+				setUserStorage(res.data);
+				return res.data;
 			})
 			.catch((error) => {
 				console.error("Error authMe  :", error);
@@ -52,17 +56,34 @@ export const useAuth = ({ middleware }) => {
 
 		api.post("/login", dataSend)
 			.then((resp) => {
-				addToken(resp.data.access_token);
+				if (resp.status === HttpStatusCode.Ok) {
+					toast({
+						status: "success",
+						description: "Identificación correcta, espere un momento...",
+					});
 
-				setToken(resp.data.access_token);
+					addToken(resp.data.access_token);
 
-				router.push("/admin/dashboard");
+					setToken(resp.data.access_token);
+
+					setTimeout(() => {
+						router.push("/admin/dashboard");
+						toast.closeAll();
+					}, 3000);
+				}
 			})
-			.then(() => mutate)
+			.then((resp) => mutate)
 			.catch((error) => {
-				setErrors(error.errors);
-				// if (error.response.status != 422) throw error;
-				// setErrors(Object.values(error.response.data.errors).flat());
+				if (error.response) {
+					setErrors(error.response.data.error);
+					console.log(error.response.data.error);
+					console.log(error.response.status);
+
+					toast({
+						status: "error",
+						description: error.response.data.error,
+					});
+				}
 			});
 	};
 
@@ -76,8 +97,9 @@ export const useAuth = ({ middleware }) => {
 		// 		},
 		// 	}
 		// ).then(() => {
-		removeUser();
-		removeToken();
+		// removeUser();
+		// removeToken();
+		localStorage.clear()
 		mutate(null);
 		router.push("/admin/login");
 		// })

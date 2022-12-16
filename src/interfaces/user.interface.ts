@@ -10,5 +10,18 @@ export interface IUser {
 	created_at: Date;
 	updated_at: Date;
 	profile_photo_url: string;
-	provider: any[]
+	provider_user_me: ProviderUser;
+}
+
+export interface ProviderUser {
+	id: number;
+	name: string;
+	email: string;
+	phone_number: string;
+	company: string;
+	rif: string;
+	provider_type: string;
+	user_id: number;
+	created_at: Date;
+	updated_at: Date;
 }
