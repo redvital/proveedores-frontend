@@ -19,6 +19,8 @@ import axios from "axios";
 import { useFormik } from "formik";
 
 export const ModalImportProduct = () => {
+	const { user } = useAuth({ middleware: "auth" });
+
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [size, setSize] = React.useState("md");
 
@@ -27,10 +29,7 @@ export const ModalImportProduct = () => {
 		onOpen();
 	};
 
-	const { user } = useAuth({ middleware: "auth" });
 	const toast = useToast();
-
-	const providerId = 1
 
 	const token = getToken();
 
@@ -45,7 +44,7 @@ export const ModalImportProduct = () => {
 			}
 
 			const response = await api.post(
-				`/supplier/${providerId}/products-import`,
+				`/supplier/products-import`,
 				formData,
 				{
 					headers: {
