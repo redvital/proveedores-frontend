@@ -30,7 +30,7 @@ export const ModalImportProduct = () => {
 	const { user } = useAuth({ middleware: "auth" });
 	const toast = useToast();
 
-	const providerId = user?.provider_user_me.id;
+	const providerId = 1
 
 	const token = getToken();
 
@@ -85,13 +85,13 @@ export const ModalImportProduct = () => {
 				variant='solid'
 				size={"lg"}
 			>
-				Importar productos
+				Importar Productos
 			</Button>
 
 			<Modal onClose={onClose} size={size} isOpen={isOpen}>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader>Importar productos</ModalHeader>
+					<ModalHeader>Importación Masiva de Productos</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
 						<div>
@@ -121,9 +121,9 @@ export const ModalImportProduct = () => {
 							colorScheme='blue'
 							mr={3}
 							type='submit'
-							onClick={formik.handleSubmit}
+							onClick={() => formik.handleSubmit()}
 						>
-							Subir{" "}
+							Procesar
 						</Button>
 						<Button onClick={onClose}>Cerrar</Button>
 					</ModalFooter>

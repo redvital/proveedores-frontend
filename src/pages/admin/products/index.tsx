@@ -37,6 +37,7 @@ import { Link } from "@chakra-ui/react";
 import { IProducts } from "@/interfaces/product.interface";
 import { getProducts } from "@/services/products.service";
 import PaginationTable from "@/components/PaginationTable";
+import { ModalImportProduct } from "@/components/ModalImportProduct"
 
 const index = () => {
 	const [products, setProducts] = useState<IProducts[]>([]);
@@ -117,7 +118,7 @@ const index = () => {
 					</Button>
 				</Link>
 
-				<Button
+				{/* <Button
 					colorScheme='blue'
 					bgGradient='linear(to-r, brand.400, brand.500, brand.600)'
 					color='white'
@@ -125,7 +126,9 @@ const index = () => {
 					size={"lg"}
 				>
 					Importar Productos
-				</Button>
+				</Button> */}
+
+				<ModalImportProduct />
 			</Flex>
 
 			<Box marginTop={4} marginBottom={10}>
