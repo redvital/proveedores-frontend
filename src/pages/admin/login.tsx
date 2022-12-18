@@ -17,15 +17,25 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import * as Yup from "yup";
 import Logo from "@/components/Logo";
-import { useAuth } from "@/hooks/auth";
+
+
+import { loginUser, profileUser } from "@/services/auth.service";
+
+import { setToken, setUserStorage } from '../../services/local-storage.service';
+import { useRouter } from "next/router"
+import { TodoContext } from "@/app/context/todoContext"
+import { TodoContextType } from "@/app/types/todo"
+
 
 const login = () => {
 	const [errors, setErrors] = useState([]);
 
-	const { login, mutate } = useAuth({ middleware: "guest" });
+	const router = useRouter();
+
+	const {  updateTodo } = useContext(TodoContext) as TodoContextType;
 
 	const toast = useToast();
 
@@ -45,7 +55,45 @@ const login = () => {
 		onSubmit: async ({ email, password }) => {
 			try {
 				if (!formik.isValid) return;
-				await login(setErrors, { email, password });
+
+
+
+
+
+				const response = await loginUser({email, password});
+
+
+				if(response.status === 200) {
+
+					setToken(response.data.access_token)
+
+					const resp = await profileUser(response.data.access_token);
+
+					if(resp.status === 200) {
+
+						setUserStorage(resp.data);
+
+
+						// console.log('DataCtx: ', todos)
+
+
+						toast({
+							title: "Usuario logueado correctamente",
+							status: "success",
+						})
+
+
+						setTimeout(() => {
+							router.push("/admin/dashboard");
+						}, 2000);
+
+
+					}
+				}
+
+
+
+
 			} catch (error) {
 				console.error("error: ", error);
 

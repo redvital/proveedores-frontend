@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/auth";
+
 import {
 	ChevronRightIcon,
 	ViewIcon,
@@ -41,7 +41,7 @@ import { IStore } from "@/interfaces/store.interface";
 import PaginationTable from "@/components/PaginationTable";
 
 const index = () => {
-	const { user } = useAuth({ middleware: "auth" });
+
 
 	const uri = `/store`;
 

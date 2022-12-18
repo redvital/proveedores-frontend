@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/auth";
+
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
 	Breadcrumb,
@@ -32,7 +32,7 @@ import { getToken } from "@/services/local-storage.service";
 import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
 
 const create = () => {
-	const { user } = useAuth({ middleware: "auth" });
+
 	const token = getToken();
 
 	const toast = useToast();

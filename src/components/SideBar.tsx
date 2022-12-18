@@ -40,6 +40,7 @@ import { IconType } from "react-icons";
 import Logo from "@/components/Logo";
 import { IUser } from "@/interfaces/user.interface";
 import { Notifications } from "@/components/Notifications";
+import { getUserStorage } from "@/services/local-storage.service"
 
 interface LinkItemProps {
 	name: string;
@@ -98,11 +99,9 @@ const LinkItems: Array<LinkItemProps> = [
 export default function Sidebar({
 	children,
 	logout,
-	user,
 }: {
 	children: ReactNode;
 	logout: () => void;
-	user: IUser | undefined;
 }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -111,7 +110,6 @@ export default function Sidebar({
 			<SidebarContent
 				onClose={() => onClose}
 				display={{ base: "none", md: "block" }}
-				user={user}
 			/>
 			<Drawer
 				autoFocus={false}
@@ -123,11 +121,11 @@ export default function Sidebar({
 				size='full'
 			>
 				<DrawerContent>
-					<SidebarContent onClose={onClose} user={user} />
+					<SidebarContent onClose={onClose} />
 				</DrawerContent>
 			</Drawer>
 			{/* mobilenav */}
-			<MobileNav onOpen={onOpen} logout={logout} user={user} />
+			<MobileNav onOpen={onOpen} logout={logout} />
 			<Box ml={{ base: 0, md: 60 }} p='4'>
 				{children}
 			</Box>
@@ -137,10 +135,9 @@ export default function Sidebar({
 
 interface SidebarProps extends BoxProps {
 	onClose: () => void;
-	user: IUser | undefined;
 }
 
-const SidebarContent = ({ onClose, user, ...rest }: SidebarProps) => {
+const SidebarContent = ({ onClose,  ...rest }: SidebarProps) => {
 	return (
 		<Box
 			transition='3s ease'
@@ -233,12 +230,13 @@ const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
 interface MobileProps extends FlexProps {
 	onOpen: () => void;
 	logout: () => void;
-	user: IUser | undefined;
 }
-const MobileNav = ({ onOpen, logout, user, ...rest }: MobileProps) => {
+const MobileNav = ({ onOpen, logout, ...rest }: MobileProps) => {
 	const logoutUser = async () => {
 		logout();
 	};
+
+	const user = getUserStorage()
 
 	const LinkItems: Array<LinkItemProps> = [
 		{ name: "Perfil", icon: FiHome, path: "/admin/profile" },
@@ -295,7 +293,7 @@ const MobileNav = ({ onOpen, logout, user, ...rest }: MobileProps) => {
 									ml='2'
 								>
 									<Text fontSize='xs'>
-										{user
+										{user && user.name
 											? user.name.toLocaleUpperCase()
 											: ""}
 									</Text>

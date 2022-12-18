@@ -257,6 +257,7 @@ const PaginationTable: NextPage<Props> = ({
 							<Tbody>
 								{data.map((item: any) => (
 									<Tr key={item.id}>
+
 										{columnsTable.map((column, index) => (
 											<Td key={index}>{item[column]}</Td>
 										))}

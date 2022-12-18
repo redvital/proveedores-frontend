@@ -22,7 +22,7 @@ export const setUserStorage = (user: any) => {
 export const getUserStorage = (): IUser | undefined | null => {
 	if (typeof window !== "undefined") {
 		const user = localStorage.getItem("user");
-		return user ? JSON.parse(JSON.stringify(user)) : null;
+		return user ? JSON.parse(user) : null;
 	}
 };
 

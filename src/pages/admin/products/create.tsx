@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/auth";
+
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
 	Breadcrumb,
@@ -41,7 +41,7 @@ import { IOptions } from "@/interfaces/options.interface";
 import { createProduct } from "@/services/products.service"
 
 const create = () => {
-	const { user } = useAuth({ middleware: "auth" });
+
 	const token = getToken();
 
 	const toast = useToast();

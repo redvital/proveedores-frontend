@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/auth";
+
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
 	Breadcrumb,
@@ -18,7 +18,7 @@ import { Link } from "@chakra-ui/react";
 import PaginationTable from "@/components/PaginationTable";
 
 const index = () => {
-	const { user } = useAuth({ middleware: "auth" });
+
 
 	const uri = `/category`;
 	const columns = ["#", "Nombre", "Categoría", "Acciones"];

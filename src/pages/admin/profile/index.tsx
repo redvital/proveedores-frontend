@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/auth";
+
 import {
 	ChevronRightIcon,
 	ViewIcon,
@@ -39,10 +39,13 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "@chakra-ui/react";
+import { getUserStorage } from "@/services/local-storage.service"
 
 
 const index = () => {
-	const { user } = useAuth({ middleware: "auth" });
+
+
+	const user = getUserStorage();
 
 	return (
 		<>

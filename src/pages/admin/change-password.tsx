@@ -24,7 +24,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import * as Yup from "yup";
 import Logo from "@/components/Logo";
-import { useAuth } from "@/hooks/auth";
+
 
 const ChangePassword = () => {
 	const router = useRouter();

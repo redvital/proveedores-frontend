@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { HttpStatusCode } from "@/app/common/enums/httpStatusCode";
-import { useAuth } from "@/hooks/auth";
+
 import api from "@/lib/api";
 import { getToken } from "@/services/local-storage.service";
 import { Box, Input, useToast } from "@chakra-ui/react";
@@ -19,7 +19,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 
 export const ModalImportProduct = () => {
-	const { user } = useAuth({ middleware: "auth" });
+
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [size, setSize] = React.useState("md");

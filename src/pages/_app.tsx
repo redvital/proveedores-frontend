@@ -6,6 +6,9 @@ import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 import NextNProgress from "nextjs-progressbar";
 
 import Default from "@/layouts/default";
+// import { AuthContextProvider } from "../context/AuthContext";
+import { TodoContext } from "@/context/todoContext";
+import { getToken } from "../services/local-storage.service";
 
 const colors = {
 	brand: {
@@ -38,18 +41,24 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	const exclude = excludePaths.some((path) => router.pathname.includes(path));
 
+	const accessToken = getToken();
+
+	if (!accessToken) {
+		router.push("/admin/login");
+	}
+
 	return (
 		<ChakraProvider theme={theme}>
+			<NextNProgress
+				color='#29D'
+				startPosition={0.3}
+				stopDelayMs={200}
+				height={3}
+				showOnShallow={true}
+			/>
+
 			{!exclude ? (
 				<Default>
-					<NextNProgress
-						color='#29D'
-						startPosition={0.3}
-						stopDelayMs={200}
-						height={3}
-						showOnShallow={true}
-					/>
-
 					<Component {...pageProps} />
 				</Default>
 			) : (

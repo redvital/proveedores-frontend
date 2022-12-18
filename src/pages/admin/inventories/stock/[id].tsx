@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/auth";
+
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
@@ -25,7 +25,7 @@ import { getStock } from "@/services/stock.service";
 import { IStock } from "@/interfaces/stock.interface";
 
 const index = () => {
-    const { user } = useAuth({ middleware: "auth" });
+
     const router = useRouter();
     const { id } = router.query;
 
@@ -79,7 +79,7 @@ return (
                                 <Text fontSize='2xl'>Inventarios</Text>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
-                        
+
                         <BreadcrumbItem>
                             <BreadcrumbLink href='/admin/stores'>
                                 <Text fontSize='2xl'>Stock</Text>
@@ -98,7 +98,7 @@ return (
                                     />
                                 </Circle>
                                 <Flex>
-                                    <Text fontSize='sm' as='b'>Proveedor :&nbsp; </Text> 
+                                    <Text fontSize='sm' as='b'>Proveedor :&nbsp; </Text>
                                     <Text fontSize='sm'>Super Drogeria</Text>
                                 </Flex>
                                 <Flex mt={2} mb={3}>
@@ -123,27 +123,27 @@ return (
                                         >
                                         Generar Cotización
                                       </Button> */    }
-                            </Container> 
+                            </Container>
                             <Container my={5}>
                               {/*  <Flex>
-                                    <Text fontSize='sm' as='b'>Gerente de Tienda:&nbsp; </Text> 
+                                    <Text fontSize='sm' as='b'>Gerente de Tienda:&nbsp; </Text>
                                     <Text fontSize='sm'>Carlos Perez</Text>
-                               </Flex> 
+                               </Flex>
                                 <Flex>
-                                    <Text fontSize='sm' as='b' >Telefono: &nbsp;</Text> 
+                                    <Text fontSize='sm' as='b' >Telefono: &nbsp;</Text>
                                     <Text fontSize='sm'>(0241)-555.55.55</Text>
-                                </Flex> 
+                                </Flex>
                                 <Flex>
-                                    <Text fontSize='sm' as='b' >Correo: &nbsp;</Text> 
+                                    <Text fontSize='sm' as='b' >Correo: &nbsp;</Text>
                                     <Text fontSize='sm'>compras-valencia@gmail.com</Text>
                                 </Flex>
                                 */}
-                                <Text fontSize='sm' as='b'>Direccion:</Text> 
-                                <Text fontSize='sm'> Autopista regional del Centro, 
-                                            entre distribuidor Divenca y el distribuidor San Blas, 
+                                <Text fontSize='sm' as='b'>Direccion:</Text>
+                                <Text fontSize='sm'> Autopista regional del Centro,
+                                            entre distribuidor Divenca y el distribuidor San Blas,
                                             sentido Caracas - Valencia, al lado de Makro, Valencia 2001,Carabobo
                                 </Text>
-                                   
+
                             </Container>
 
                     </Flex>

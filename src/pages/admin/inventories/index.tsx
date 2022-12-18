@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/auth";
+
 import {
 	ChevronRightIcon,
 } from "@chakra-ui/icons";
@@ -18,7 +18,7 @@ import { IStore } from "@/interfaces/store.interface";
 import { getStores } from "@/services/store.service";
 
 const index = () => {
-	const { user } = useAuth({ middleware: "auth" });
+
 	const [stores, setStores] = useState<IStore[]>([]);
 
 	const getData = async () => {

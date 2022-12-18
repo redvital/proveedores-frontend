@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/auth";
+
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
 	Breadcrumb,
@@ -20,7 +20,7 @@ import {
 import React from "react";
 
 const index = () => {
-	const { user } = useAuth({ middleware: "auth" });
+
 
 	return (
 		<>

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useAuth } from "@/hooks/auth";
+
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
 	Breadcrumb,
@@ -35,7 +35,7 @@ import { IRepresentative } from "@/interfaces/representative.interface";
 import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
 
 const edit = () => {
-	const { user } = useAuth({ middleware: "auth" });
+
 	const router = useRouter();
 	const { id } = router.query;
 

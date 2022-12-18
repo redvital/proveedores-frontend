@@ -27,7 +27,7 @@ import {
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Link } from "@chakra-ui/react";
-import { useAuth } from "@/hooks/auth";
+
 import api from "@/lib/api";
 import { useEffect, useState } from "react";
 import { getToken } from "@/services/local-storage.service";
@@ -35,7 +35,7 @@ import { IStore } from "@/interfaces/store.interface";
 import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
 
 const View = () => {
-	const { user } = useAuth({ middleware: "auth" });
+
 	const router = useRouter();
 	const { id } = router.query;
 	const token = getToken();

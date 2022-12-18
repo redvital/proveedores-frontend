@@ -50,7 +50,7 @@ const index = () => {
 		getData();
 	}, []);
 
-	const uri = `/supplier/1/products`;
+	const uri = `/provider/1/products`;
 
 	const columns = [
 		"#",
