@@ -11,12 +11,11 @@ const token = getToken();
 export const getProducts = async (
 	set: Dispatch<SetStateAction<IProducts[]>>
 ) => {
-	const { data } = await api.get("supplier/1/products", {
+	const { data } = await api.get("product/1", {
 		headers: {
 			Authorization: `Bearer ${token}`,
 		},
 	});
-
 	set(data.data);
 };
 

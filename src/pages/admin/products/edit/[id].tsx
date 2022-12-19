@@ -47,7 +47,7 @@ import {
 const edit = () => {
 	const { user } = useAuth({ middleware: "auth" });
 	const router = useRouter();
-	const { id } = router.query;
+	const { id } = router.query || '';
 
 	const token = getToken();
 
@@ -71,7 +71,6 @@ const edit = () => {
 		}
 		loadSelects();
 	}, [id]);
-	const isDisabled = true;
 
 	const  getOneProduct = async ( id : any) => {
 		const { data } = await api.get(`product/${id}`, {
@@ -92,7 +91,7 @@ const edit = () => {
 			category_id: product.category ? product.category : "",
 			sku: product.sku_provider ? product.sku_provider : "",
 			barcode: product.bar_code ? product.bar_code : "",
-			special_payment_method: product.method_of_payment? product.method_of_payment : "",
+			special_payment_method: product.method_of_payment ? product.method_of_payment : "",
 			condition: product.condition ? product.condition : "",
 			currency: product.currency ? product.currency : "",
 			pack_quantity: product.pack_quantity ? product.pack_quantity : "",
@@ -144,8 +143,8 @@ const edit = () => {
 			try {
 				if (!formik.isValid) return;
 
-				const response = await api.post(
-					`supplier/${id}/products`, 
+				const response = await api.patch(
+					`product/${id}`, 
 					{
 						name: name,
 						category: category_id,
@@ -175,6 +174,8 @@ const edit = () => {
 					});
 
 					formik.resetForm();
+
+                    
 				}
 			} catch (error) {
 				console.error("error: ", error);
@@ -201,7 +202,7 @@ const edit = () => {
 
 				<BreadcrumbItem>
 					<BreadcrumbLink>
-						<Text fontSize='2xl'>Ver Producto</Text>
+						<Text fontSize='2xl'>Actualizar Producto</Text>
 					</BreadcrumbLink>
 				</BreadcrumbItem>
 
@@ -245,7 +246,7 @@ const edit = () => {
 									type='text'
 									value={formik.values.name}
 									onChange={formik.handleChange}
-									readOnly={true}
+									
 								/>
 								<FormErrorMessage>
 									{formik.touched.name && formik.errors.name}
@@ -267,7 +268,6 @@ const edit = () => {
 									placeholder='Seleccione una categoría'
 									value={formik.values.category_id}
 									onChange={formik.handleChange}
-									disabled  = {true}
 								>
 									{categories.map((category: IOptions) => (
 										<option
@@ -297,7 +297,7 @@ const edit = () => {
 									type='text'
 									value={formik.values.sku}
 									onChange={formik.handleChange}
-									readOnly={true}
+									
 								/>
 								<FormErrorMessage>
 									{formik.touched.sku && formik.errors.sku}
@@ -317,8 +317,7 @@ const edit = () => {
 								<Input
 									type='text'
 									value={formik.values.barcode}
-									onChange={formik.handleChange}
-									readOnly={true}
+									onChange={formik.handleChange}									
 								/>
 								<FormErrorMessage>
 									{formik.touched.barcode &&
@@ -340,7 +339,6 @@ const edit = () => {
 									placeholder='Seleccione un método de pago'
 									value={formik.values.special_payment_method}
 									onChange={formik.handleChange}
-									disabled ={true}
 								>
 									{specialPaymentMethods.map(
 										(paymentMethod: IOptions) => (
@@ -373,7 +371,6 @@ const edit = () => {
 									placeholder='Seleccione una condición'
 									value={formik.values.condition}
 									onChange={formik.handleChange}
-									disabled = {true}
 								>
 									{conditions.map((condition: IOptions) => (
 										<option
@@ -404,7 +401,6 @@ const edit = () => {
 									placeholder='Seleccione una moneda'
 									value={formik.values.currency}
 									onChange={formik.handleChange}
-									disabled = {true}
 								>
 									{currencies.map((currency: IOptions) => (
 										<option
@@ -435,7 +431,6 @@ const edit = () => {
 									type='text'
 									value={formik.values.pack_quantity}
 									onChange={formik.handleChange}
-									readOnly={true}
 								/>
 							</FormControl>
 
@@ -453,7 +448,6 @@ const edit = () => {
 									type='text'
 									value={formik.values.quantity_available}
 									onChange={formik.handleChange}
-									readOnly={true}
 								/>
 							</FormControl>
 
@@ -471,7 +465,6 @@ const edit = () => {
 									type='text'
 									value={formik.values.bulk_cost}
 									onChange={formik.handleChange}
-									readOnly={true}
 								/>
 								<FormErrorMessage>
 									{formik.touched.bulk_cost &&
@@ -519,7 +512,6 @@ const edit = () => {
 									type='text'
 									value={formik.values.unit_price}
 									onChange={formik.handleChange}
-									readOnly={true}
 								/>
 								<FormErrorMessage>
 									{formik.touched.unit_price &&
@@ -550,8 +542,7 @@ const edit = () => {
 										bgColor={"white"}
 										type='text'
 										value={formik.values.unit_price}
-										onChange={formik.handleChange}
-										readOnly={true}
+										onChange={formik.handleChange}									
 									/>
 									<FormErrorMessage>
 										{formik.touched.unit_price &&
@@ -567,13 +558,25 @@ const edit = () => {
 									bg={"red.300"}
 									color={"white"}
 									_hover={{
-										bg: "blue.500",
+										bg: "red.500",
 									}}
 									type='button'
 								>
 									Regresar
 								</Button>
 							</Link>
+                            <Link>
+                                <Button
+                                    bg={"brand.400"}
+                                    color={"white"}
+                                    _hover={{
+                                        bg: "brand.500",
+                                    }}
+                                    type='submit'
+                                >
+                                    Actualizar
+                                </Button>
+                            </Link>
 						</Stack>
 					</Box>
 				</form>
