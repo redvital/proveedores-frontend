@@ -54,4 +54,5 @@ export interface IProducts {
     team_id:           any;
     user_id:           any;
     agreement_id:      any;
+    pack_quantity:     any;
 }

@@ -308,7 +308,7 @@ const create = () => {
 							<FormLabel>Moneda</FormLabel>
 							<Select
 								placeholder='Seleccione una moneda'
-								value={formik.values.category_id}
+								value={formik.values.coin}
 								onChange={formik.handleChange}
 							>
 								{currencies.map((currency: IOptions) => (
