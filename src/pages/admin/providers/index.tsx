@@ -39,6 +39,7 @@ import { IProviders } from "@/interfaces/provider.interface";
 import api from "@/lib/api";
 import { getToken } from "@/services/local-storage.service";
 import PaginationTable from "@/components/PaginationTable";
+import { ModalImportProduct } from "@/components/ModalImportProvider";
 
 const index = () => {
 	const { user } = useAuth({ middleware: "auth" });
@@ -112,6 +113,7 @@ const index = () => {
 						Crear Proveedor
 					</Button>
 				</Link>
+				<ModalImportProduct />
 			</Flex>
 
 			<Box marginTop={4} marginBottom={10}>

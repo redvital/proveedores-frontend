@@ -162,7 +162,13 @@ const edit = () => {
 
 				<BreadcrumbItem>
 					<BreadcrumbLink>
-						<Text fontSize='2xl'>Crear Proveedor</Text>
+						<Text fontSize='2xl'>Editar Proveedor</Text>
+					</BreadcrumbLink>
+				</BreadcrumbItem>
+
+				<BreadcrumbItem>
+					<BreadcrumbLink>
+						<Text fontSize='2xl'>{provider.name}</Text>
 					</BreadcrumbLink>
 				</BreadcrumbItem>
 			</Breadcrumb>

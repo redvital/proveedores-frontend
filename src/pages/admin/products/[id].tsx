@@ -207,7 +207,7 @@ const edit = () => {
 
 				<BreadcrumbItem>
 					<BreadcrumbLink>
-						<Text fontSize='2xl'># {id}</Text>
+						<Text fontSize='2xl'> {product.name}</Text>
 					</BreadcrumbLink>
 				</BreadcrumbItem>
 			</Breadcrumb>

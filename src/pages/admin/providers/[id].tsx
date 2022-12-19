@@ -32,14 +32,36 @@ import api from "@/lib/api";
 import { getToken } from "@/services/local-storage.service";
 import { useEffect, useState } from "react";
 import { IProviders } from "@/interfaces/provider.interface";
-import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
-import { getTypeProviders } from "@/services/options.service"
-import { IOptions } from "@/interfaces/options.interface"
+import { HttpStatusCode } from "@/app/common/enums/httpStatusCode";
+import { getTypeProviders } from "@/services/options.service";
+import { IOptions } from "@/interfaces/options.interface";
+import PaginationTable from "@/components/PaginationTable";
 
 const view = () => {
 	const { user } = useAuth({ middleware: "auth" });
 	const router = useRouter();
 	const { id } = router.query;
+	const uri = `/provider/${id}/products`;
+
+	const columns = [
+		"#",
+		"Nombre",
+		"Correo",
+		"Teléfono",
+		"Empresa",
+		"RIF",
+		"Modificado"
+	];
+
+	const columnsTable = [
+		"id",
+		"name",
+		"email",
+		"phone_number",
+		"company",
+		"rif",
+		"updated_at",
+	];
 
 	const token = getToken();
 	const toast = useToast();
@@ -155,9 +177,16 @@ const view = () => {
 
 				<BreadcrumbItem>
 					<BreadcrumbLink>
-						<Text fontSize='2xl'>Crear Proveedor</Text>
+						<Text fontSize='2xl'>Ver Proveedor</Text>
 					</BreadcrumbLink>
 				</BreadcrumbItem>
+
+				<BreadcrumbItem>
+					<BreadcrumbLink>
+						<Text fontSize='2xl'>{provider.name}</Text>
+					</BreadcrumbLink>
+				</BreadcrumbItem>
+
 			</Breadcrumb>
 			<Box marginTop={4} marginBottom={10}>
 				<form onSubmit={formik.handleSubmit}>
