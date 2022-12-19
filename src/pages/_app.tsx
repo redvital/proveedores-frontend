@@ -6,6 +6,7 @@ import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 import NextNProgress from "nextjs-progressbar";
 
 import Default from "@/layouts/default";
+import { TodoProvider } from "../context/TodoProvider";
 
 const colors = {
 	brand: {
@@ -40,21 +41,23 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	return (
 		<ChakraProvider theme={theme}>
-			{!exclude ? (
-				<Default>
-					<NextNProgress
-						color='#29D'
-						startPosition={0.3}
-						stopDelayMs={200}
-						height={3}
-						showOnShallow={true}
-					/>
+			<TodoProvider>
+				{!exclude ? (
+					<Default>
+						<NextNProgress
+							color='#29D'
+							startPosition={0.3}
+							stopDelayMs={200}
+							height={3}
+							showOnShallow={true}
+						/>
 
+						<Component {...pageProps} />
+					</Default>
+				) : (
 					<Component {...pageProps} />
-				</Default>
-			) : (
-				<Component {...pageProps} />
-			)}
+				)}
+			</TodoProvider>
 		</ChakraProvider>
 	);
 }
