@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactText } from "react";
+import React, { ReactNode, ReactText, useEffect } from "react";
 import {
 	IconButton,
 	Avatar,
@@ -40,6 +40,8 @@ import { IconType } from "react-icons";
 import Logo from "@/components/Logo";
 import { IUser } from "@/interfaces/user.interface";
 import { Notifications } from "@/components/Notifications";
+import { getToken } from "@/services/local-storage.service";
+import { useRouter } from "next/router";
 
 interface LinkItemProps {
 	name: string;
@@ -105,6 +107,33 @@ export default function Sidebar({
 	user: IUser | undefined;
 }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	const router = useRouter();
+	const token = getToken();
+
+	const excludePaths = [
+		"/admin/login",
+		"/admin/register",
+		"/pre-registration",
+		"/admin/password-recovery",
+		"/admin/change-password",
+	];
+
+	const exclude = excludePaths.some((path) => router.pathname.includes(path));
+
+	useEffect(() => {
+		console.log(`Route is: ${router.pathname}`, exclude);
+		if (!token || exclude) {
+			router.push("/admin/login");
+		}
+	}, [user]);
+
+	if (!user)
+		return (
+			<Flex h='100vh' justifyContent='center' alignItems='center'>
+				<Text>Por favor espere...</Text>
+			</Flex>
+		);
 
 	return (
 		<Box minH='100vh' bg={useColorModeValue("gray.100", "gray.900")}>
