@@ -28,6 +28,7 @@ import { useRouter } from "next/router";
 
 const register = () => {
 	const [showPassword, setShowPassword] = useState(false);
+	const [loading, setLoading] = useState<boolean>(false);
 	const toast = useToast();
 
 	const router = useRouter();
@@ -56,6 +57,9 @@ const register = () => {
 		}),
 		onSubmit: async ({ name, email, password, password_confirmation }) => {
 			try {
+
+				setLoading(true);
+
 				if (!formik.isValid) return;
 
 				const response = await api.post("/signup", {
@@ -70,11 +74,14 @@ const register = () => {
 						title: `Registrado correctamente`,
 						status: "success",
 					});
+				
+				setLoading(false);
 
 					formik.resetForm();
 				}
 			} catch (error) {
 				console.error("error ;", error);
+				setLoading(false);
 				toast({
 					title: `Ocurrió un error al registrarse`,
 					status: "error",
@@ -251,6 +258,7 @@ const register = () => {
 								</FormControl>
 								<Stack spacing={10} pt={2}>
 									<Button
+										isLoading = {loading}
 										loadingText='Submitting'
 										size='lg'
 										type='submit'
@@ -259,6 +267,7 @@ const register = () => {
 										_hover={{
 											bg: "blue.500",
 										}}
+									
 									>
 										Registrarse
 									</Button>
