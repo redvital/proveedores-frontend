@@ -47,7 +47,7 @@ const register = () => {
 				.required("El correo es requerido"),
 			password: Yup.string()
 				.required("La contraseña es requerida")
-				.min(6, "El mínimo permitido es de 6 caracteres"),
+				.min(8, "El mínimo permitido es de 8 caracteres"),
 			password_confirmation: Yup.string()
 				.required("la confirmación de contraseña es requerida")
 				.oneOf(
