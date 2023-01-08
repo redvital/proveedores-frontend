@@ -26,6 +26,7 @@ const login = () => {
 	const [errors, setErrors] = useState([]);
 
 	const { login, mutate } = useAuth({ middleware: "guest" });
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const toast = useToast();
 
@@ -45,10 +46,13 @@ const login = () => {
 		onSubmit: async ({ email, password }) => {
 			try {
 				if (!formik.isValid) return;
+
+				setLoading(true);
+
 				await login(setErrors, { email, password });
 			} catch (error) {
 				console.error("error: ", error);
-
+				setLoading(false);
 				toast({
 					title: `Error: ${error}`,
 					status: "error",
@@ -58,7 +62,6 @@ const login = () => {
 	});
 
 	return (
-
 		<Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
 			<Flex flex={1}>
 				<Image
@@ -70,7 +73,7 @@ const login = () => {
 				/>
 			</Flex>
 			<Flex p={8} flex={1} align={"center"} justify={"center"}>
-			<Stack spacing={2} w={'full'} maxW={'md'}>
+				<Stack spacing={2} w={"full"} maxW={"md"}>
 					<Stack align={"center"}>
 						<Logo />
 					</Stack>
@@ -82,9 +85,7 @@ const login = () => {
 					</Stack>
 
 					<Stack align={"center"}>
-						<Heading fontSize={"md"}>
-							Acceso al Sistema
-						</Heading>
+						<Heading fontSize={"md"}>Acceso al Sistema</Heading>
 					</Stack>
 					<Box
 						rounded={"lg"}
@@ -92,7 +93,10 @@ const login = () => {
 						// boxShadow={"lg"}
 						p={8}
 					>
-						<form onSubmit={formik.handleSubmit} autoComplete={"false"}>
+						<form
+							onSubmit={formik.handleSubmit}
+							autoComplete={"false"}
+						>
 							<Stack spacing={4}>
 								<FormControl
 									id='email'
@@ -145,11 +149,17 @@ const login = () => {
 										justify={"space-between"}
 									>
 										{/* <Checkbox>Recordar sus datos?</Checkbox> */}
-										<Link color={"brand.400"} href={"password-recovery"}>
+										<Link
+											color={"brand.400"}
+											href={"password-recovery"}
+										>
 											Olvido su contraseña?
 										</Link>
 
-										<Link color={"brand.400"} href="/admin/register">
+										<Link
+											color={"brand.400"}
+											href='/admin/register'
+										>
 											Deseas registrarse?
 										</Link>
 									</Stack>
@@ -161,6 +171,8 @@ const login = () => {
 											bg: "brand.500",
 										}}
 										type='submit'
+										isLoading = {loading}
+										loadingText='Submitting'
 									>
 										Iniciar sesión{" "}
 									</Button>
@@ -170,7 +182,6 @@ const login = () => {
 					</Box>
 				</Stack>
 			</Flex>
-
 		</Stack>
 	);
 };

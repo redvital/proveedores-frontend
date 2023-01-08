@@ -37,9 +37,13 @@ import { Link } from "@chakra-ui/react";
 import { IProducts } from "@/interfaces/product.interface";
 import { getProducts } from "@/services/products.service";
 import PaginationTable from "@/components/PaginationTable";
-import { ModalImportProduct } from "@/components/ModalImportProduct"
+import { ModalImportProduct } from "@/components/ModalImportProduct";
+import { useAuth } from "@/hooks/auth";
+import { IUser } from "@/interfaces/user.interface";
 
 const index = () => {
+	const { user } = useAuth({ middleware: "auth" });
+
 	const [products, setProducts] = useState<IProducts[]>([]);
 
 	const getData = async () => {
@@ -50,7 +54,9 @@ const index = () => {
 		getData();
 	}, []);
 
-	const uri = `/supplier/1/products`;
+	const { provider_user_me } = user as IUser;
+
+	const uri = `/supplier/${provider_user_me.id}/products`;
 
 	const columns = [
 		"#",
