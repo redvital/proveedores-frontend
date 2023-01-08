@@ -30,12 +30,15 @@ import { Link } from "@chakra-ui/react";
 import api from "@/lib/api";
 import { getToken } from "@/services/local-storage.service";
 import { HttpStatusCode } from "@/app/common/enums/httpStatusCode"
+import { IUser } from "@/interfaces/user.interface"
 
 const create = () => {
 	const { user } = useAuth({ middleware: "auth" });
 	const token = getToken();
 
 	const toast = useToast();
+
+	const { provider_user_me } = user as IUser;
 
 	const formik = useFormik({
 		initialValues: {
@@ -53,7 +56,7 @@ const create = () => {
 				if (!formik.isValid) return;
 
 				const response = await api.post(
-					"provider/1/representative",
+					`provider/${provider_user_me}/representative`,
 					{
 						commercial_register: name,
 						rif: rif,
